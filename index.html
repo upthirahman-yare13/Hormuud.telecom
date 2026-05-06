@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="so">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hormuud Digital Signage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #010409;
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+        }
+        .slide {
+            display: none;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .slide.active {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .progress-bar {
+            height: 6px;
+            background: #2563eb;
+            width: 0%;
+        }
+        @keyframes progress {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+        .glow {
+            box-shadow: 0 0 50px rgba(37, 99, 235, 0.2);
+        }
+    </style>
+</head>
+<body class="relative flex flex-col">
+
+    <!-- Background Decoration -->
+    <div class="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-blue-600/5 blur-[150px] rounded-full"></div>
+
+    <!-- Header Section -->
+    <header class="p-12 px-20 flex justify-between items-center z-50">
+        <div class="flex items-center gap-8">
+            <div class="w-24 h-24 bg-blue-600 rounded-[35px] flex items-center justify-center shadow-2xl rotate-3">
+                <span class="text-white font-black text-6xl italic">H</span>
+            </div>
+            <div>
+                <h1 class="text-5xl font-black tracking-tighter uppercase italic leading-none">Hormuud</h1>
+                <p class="text-blue-500 font-bold uppercase tracking-[0.5em] text-[10px] mt-2">Digital Society</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-10 bg-white/5 backdrop-blur-xl p-6 px-12 rounded-[50px] border border-white/10">
+            <div class="text-right pr-8 border-r border-white/10">
+                <p id="day-name" class="text-3xl font-black italic">Maalin</p>
+                <p id="full-date" class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Date</p>
+            </div>
+            <div id="clock" class="text-blue-500 font-black text-6xl tabular-nums tracking-tighter italic">00:00</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex items-center justify-center relative px-20">
+        
+        <!-- SLIDE 1: WELCOME -->
+        <div id="slide-0" class="slide active flex-col items-center text-center space-y-12">
+            <div class="inline-flex items-center gap-4 bg-blue-600/10 px-10 py-4 rounded-full border border-blue-500/20 mb-6">
+                <span class="text-xl font-black text-blue-400 uppercase tracking-[0.5em] italic">Xarunta Dhexe ee Hormuud</span>
+            </div>
+            <h2 class="text-[14rem] font-black tracking-tighter leading-[0.75] uppercase italic drop-shadow-2xl">
+                SOO <br /> <span class="text-blue-600">DHAWAADA</span>
+            </h2>
+            <p class="text-4xl text-slate-400 font-medium italic">Waayaha Nolosha Wehelka Dhabta Ah</p>
+        </div>
+
+        <!-- SLIDE 2: PACKAGES (From SMS Data) -->
+        <div id="slide-1" class="slide flex-col w-full max-w-[95vw]">
+            <div class="grid grid-cols-3 gap-12">
+                <!-- Anfac -->
+                <div class="bg-slate-900/50 backdrop-blur-3xl p-16 rounded-[80px] border border-white/5 glow">
+                    <h4 class="text-5xl font-black text-blue-500 italic uppercase">ANFAC PLUS</h4>
+                    <p class="text-[8rem] font-black tracking-tighter mt-6">$1.00</p>
+                    <p class="text-3xl font-bold text-blue-400 italic">2GB + 80 Min</p>
+                    <div class="mt-8 pt-8 border-t border-white/10">
+                        <p class="text-sm font-black text-slate-500 tracking-[0.5em]">GARAAC *222#</p>
+                    </div>
+                </div>
+                <!-- Ku-Hadal -->
+                <div class="bg-slate-900/50 backdrop-blur-3xl p-16 rounded-[80px] border border-white/5 glow">
+                    <h4 class="text-5xl font-black text-orange-500 italic uppercase">KU-HADAL</h4>
+                    <p class="text-[8rem] font-black tracking-tighter mt-6">$0.50</p>
+                    <p class="text-3xl font-bold text-orange-400 italic">Unlimited Voice</p>
+                    <div class="mt-8 pt-8 border-t border-white/10">
+                        <p class="text-sm font-black text-slate-500 tracking-[0.5em]">MAALINLE</p>
+                    </div>
+                </div>
+                <!-- Kudhan -->
+                <div class="bg-slate-900/50 backdrop-blur-3xl p-16 rounded-[80px] border border-white/5 glow">
+                    <h4 class="text-5xl font-black text-green-500 italic uppercase">KUDHAN</h4>
+                    <p class="text-[8rem] font-black tracking-tighter mt-6">$20.0</p>
+                    <p class="text-3xl font-bold text-green-400 italic">IPTV + Data</p>
+                    <div class="mt-8 pt-8 border-t border-white/10">
+                        <p class="text-sm font-black text-slate-500 tracking-[0.5em]">BILE (30 DAYS)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: SECURITY -->
+        <div id="slide-2" class="slide flex-row items-center gap-32 w-full px-20">
+            <div class="flex-1 space-y-16 text-left">
+                <h2 class="text-[12rem] font-black tracking-tighter uppercase italic leading-[0.8] text-orange-500">AMNIGA <br/><span class="text-white">EVC PLUS</span></h2>
+                <p class="text-5xl text-slate-400 italic leading-[1.3] max-w-4xl">Ha la wadaagin PIN-kaaga cid kale. Ka digtoonow khayaanada.</p>
+                <div class="flex gap-10">
+                    <div class="bg-blue-600 p-12 rounded-[50px] shadow-2xl">
+                        <p class="text-7xl font-black italic">141</p>
+                        <p class="text-sm font-black uppercase tracking-widest mt-4">Nala soo xiriir</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-[500px] h-[750px] bg-black rounded-[90px] border-[15px] border-slate-800 shadow-[0_0_100px_rgba(37,99,235,0.1)] p-16 flex flex-col justify-center text-center rotate-2">
+                <p class="text-2xl font-bold text-slate-500 uppercase tracking-widest">EVC Balance</p>
+                <p class="text-9xl font-black italic tracking-tighter mt-4">$3,250</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Progress -->
+    <footer class="w-full">
+        <div class="h-2 bg-white/5 w-full">
+            <div id="progress" class="h-full bg-blue-600" style="transition: width 10s linear;"></div>
+        </div>
+        <div class="p-10 px-20 flex justify-between items-center bg-black/40 backdrop-blur-2xl">
+            <div class="flex gap-8">
+                <span class="text-xs font-black text-green-500 uppercase tracking-[0.5em] flex items-center gap-3">
+                    <span class="w-3 h-3 bg-green-500 rounded-full animate-ping"></span> Live Display
+                </span>
+            </div>
+            <p class="text-[10px] font-black text-slate-600 uppercase tracking-[1em] italic">Hormuud Telecom © 2026</p>
+        </div>
+    </footer>
+
+    <!-- Audio Button Overlay -->
+    <button id="audio-toggle" class="absolute top-12 right-12 z-[100] p-6 bg-white/5 rounded-full hover:bg-white/10 transition-all text-slate-400">
+        <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    </button>
+
+    <script>
+        let currentSlide = 0;
+        let isMuted = true;
+        const totalSlides = 3;
+
+        function updateClock() {
+            const now = new Date();
+            const days = ['Axad', 'Isniin', 'Salaaso', 'Arbaco', 'Khamiis', 'Jimce', 'Sabti'];
+            const months = ['Janaayo', 'Febraayo', 'Maarso', 'Abriil', 'Maayo', 'Juun', 'Luulyo', 'Ogosto', 'Sebteembar', 'Oktoobar', 'Nofeembar', 'Diseembar'];
+            
+            document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('day-name').textContent = days[now.getDay()];
+            document.getElementById('full-date').textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+        }
+
+        function speak(text) {
+            if (isMuted) return;
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.lang = 'en-US';
+            msg.rate = 0.9;
+            window.speechSynthesis.speak(msg);
+        }
+
+        function nextSlide() {
+            document.getElementById(`slide-${currentSlide}`).classList.remove('active');
+            currentSlide = (currentSlide + 1) % totalSlides;
+            document.getElementById(`slide-${currentSlide}`).classList.add('active');
+            
+            // Reset Progress Bar
+            const prog = document.getElementById('progress');
+            prog.style.transition = 'none';
+            prog.style.width = '0%';
+            setTimeout(() => {
+                prog.style.transition = 'width 10s linear';
+                prog.style.width = '100%';
+            }, 50);
+
+            // Audio Logic
+            const msgs = [
+                "Welcome to Hormuud Telecom. Connecting you to the world.",
+                "Check our best bundles. Anfac Plus, Ku-hadal, and Kudhan are now ready.",
+                "Protect your money. Do not share your E-V-C Plus PIN with anyone."
+            ];
+            speak(msgs[currentSlide]);
+        }
+
+        document.getElementById('audio-toggle').onclick = () => {
+            isMuted = !isMuted;
+            const icon = document.getElementById('mute-icon');
+            if (isMuted) {
+                icon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+            } else {
+                icon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+                speak("Audio active.");
+            }
+        };
+
+        setInterval(updateClock, 1000);
+        setInterval(nextSlide, 10000);
+        updateClock();
+        
+        // Initial progress start
+        setTimeout(() => {
+            document.getElementById('progress').style.width = '100%';
+        }, 100);
+    </script>
+</body>
+</html>
