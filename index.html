@@ -3,184 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hormuud Digital Signage - Fixed Audio</title>
+    <title>Hormuud & Salaam Signage</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #010409; color: white; overflow: hidden; min-height: 100vh; display: flex; flex-direction: column; }
-        .slide { display: none; animation: fadeIn 0.8s ease; width: 100%; flex-grow: 1; }
-        .slide.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        .progress-container { height: 12px; background: rgba(255, 255, 255, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
-        #progress-fill { height: 100%; background: #2563eb; width: 0%; box-shadow: 0 0 15px #2563eb; }
-        .package-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 30px; border-radius: 40px; text-align: center; }
-        #start-overlay { position: fixed; inset: 0; background: #010409; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .video-container { width: 90%; max-width: 1100px; aspect-ratio: 16/9; border-radius: 45px; overflow: hidden; border: 10px solid #111; background: black; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #010409;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .slide {
+            display: none;
+            animation: slideIn 0.5s ease-out forwards;
+            width: 100%;
+            flex-grow: 1;
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .progress-container {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        #progress-fill {
+            height: 100%;
+            background: #2563eb;
+            width: 0%;
+            transition: width 10s linear;
+        }
+        .package-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .glow-blue { box-shadow: 0 0 30px rgba(37, 99, 235, 0.2); }
+        .glow-orange { box-shadow: 0 0 30px rgba(249, 115, 22, 0.2); }
+        .glow-green { box-shadow: 0 0 30px rgba(34, 197, 94, 0.2); }
+        
+        /* Layout for phone/tablet */
+        @media (max-width: 768px) {
+            .hero-text { font-size: 3.5rem !important; }
+            .grid-cols-custom { grid-template-columns: repeat(2, 1fr); }
+        }
+        /* Layout for TV/Desktop */
+        @media (min-width: 769px) {
+            .hero-text { font-size: 8rem !important; }
+            .grid-cols-custom { grid-template-columns: repeat(4, 1fr); }
+        }
     </style>
 </head>
-<body class="p-8">
+<body class="p-6 md:p-12">
 
-    <div id="start-overlay">
-        <div class="w-32 h-32 bg-blue-600 rounded-[45px] flex items-center justify-center shadow-2xl mb-12 animate-pulse">
-            <span class="text-white font-black text-7xl italic">H</span>
-        </div>
-        <button id="start-btn" class="px-20 py-10 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-black text-5xl transition-all transform hover:scale-110 shadow-2xl">
-            BILOW BANDHIGGA
-        </button>
-        <p class="mt-8 text-slate-500 text-2xl font-light uppercase tracking-widest italic">Hormuud Digital Signage</p>
-    </div>
-
-    <header class="flex justify-between items-center mb-12 z-50">
-        <div class="flex items-center gap-10">
-            <div class="w-24 h-24 bg-blue-600 rounded-[30px] flex items-center justify-center shadow-2xl">
-                <span class="text-white font-black text-6xl italic">H</span>
+    <!-- Header Section -->
+    <header class="flex justify-between items-center mb-10 z-50">
+        <div class="flex items-center gap-4">
+            <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center shadow-xl rotate-3">
+                <span class="text-white font-black text-3xl italic">H</span>
             </div>
             <div>
-                <h1 class="text-6xl font-black uppercase italic leading-none">Hormuud</h1>
-                <p class="text-blue-500 font-bold uppercase tracking-widest text-sm mt-4 italic">Wehelka Nolosha</p>
+                <h1 class="text-2xl md:text-4xl font-black uppercase italic leading-none">Hormuud</h1>
+                <p class="text-blue-500 font-bold uppercase tracking-[0.3em] text-[8px] md:text-[10px]">Digital Society</p>
             </div>
         </div>
-        <div class="bg-white/5 backdrop-blur-3xl px-14 py-8 rounded-[50px] border border-white/10 shadow-2xl">
-            <div id="clock" class="text-blue-500 font-black text-7xl italic tabular-nums leading-none">00:00</div>
+        <div class="bg-white/5 backdrop-blur-xl px-8 py-3 rounded-full border border-white/10 text-center">
+            <div id="clock" class="text-blue-500 font-black text-2xl md:text-4xl italic tabular-nums leading-none">00:00</div>
+            <p id="day-info" class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">Khamiis, 7 Maayo</p>
         </div>
     </header>
 
+    <!-- Slides Container -->
     <main class="flex-1 flex items-center justify-center">
-        <!-- Slide 0 -->
-        <div id="slide-0" class="slide active text-center">
-            <h2 class="text-9xl font-black tracking-tighter uppercase italic text-white drop-shadow-2xl">WAAYAHA <br /> <span class="text-blue-600">NOLOSHA</span></h2>
-            <p class="text-4xl text-slate-400 font-light italic mt-10">HORMUUD TELECOM</p>
+
+        <!-- SLIDE 1: WELCOME -->
+        <div id="slide-0" class="slide active text-center space-y-8">
+            <div class="bg-blue-600/10 px-8 py-2 rounded-full border border-blue-500/20 w-fit mx-auto">
+                <span class="text-sm font-bold text-blue-400 uppercase tracking-[0.3em] italic">Soo Dhawaada</span>
+            </div>
+            <h2 class="hero-text font-black tracking-tighter leading-none uppercase italic">
+                HORMUUD <br /> <span class="text-blue-600">TELECOM</span>
+            </h2>
+            <p class="text-xl md:text-4xl text-slate-400 italic">Waayaha Nolosha Wehelka Dhabta Ah</p>
         </div>
 
-        <!-- Slide 1 -->
-        <div id="slide-1" class="slide space-y-12">
-            <h3 class="text-[10rem] font-black text-blue-500 italic uppercase">ANFAC PLUS</h3>
-            <p class="text-7xl font-black italic text-white animate-pulse">GARAAC *222*2#</p>
+        <!-- SLIDE 2: ANFAC PLUS -->
+        <div id="slide-1" class="slide space-y-8 w-full max-w-6xl">
+            <div class="text-center">
+                <h3 class="text-4xl md:text-7xl font-black text-blue-500 italic uppercase">ANFAC PLUS</h3>
+                <p class="text-slate-400 mt-2 italic md:text-xl">Internet, Ku-hadal iyo Farriin wada socda</p>
+            </div>
+            <div class="grid grid-cols-custom gap-4 px-4">
+                <div class="package-card"><p class="text-blue-500 font-black text-2xl">$0.25</p><p class="text-xs font-bold">400MB, 10 Daq.</p></div>
+                <div class="package-card border-blue-500/40 bg-blue-600/5"><p class="text-blue-500 font-black text-2xl">$0.50</p><p class="text-xs font-bold">850MB, 30 Daq.</p></div>
+                <div class="package-card border-blue-500 glow-blue scale-105 bg-blue-600/10"><p class="text-blue-500 font-black text-3xl">$1.00</p><p class="text-xs font-bold">2GB, 80 Daq, 50 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-2xl">$2.00</p><p class="text-xs font-bold">5GB, 160 Daq, 100 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-2xl">$5.00</p><p class="text-xs font-bold">12GB, 400 Daq, 150 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-2xl">$10.00</p><p class="text-xs font-bold">28GB, 800 Daq, 300 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-2xl">$20.00</p><p class="text-xs font-bold">60GB, 1600 Daq, 500 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-2xl">$50.00</p><p class="text-xs font-bold">140GB, 4000 Daq</p></div>
+            </div>
+            <div class="text-center font-black text-2xl md:text-4xl italic text-blue-400">Garaac *222*2#</div>
         </div>
 
-        <!-- Slide 2 -->
-        <div id="slide-2" class="slide space-y-12">
-            <h3 class="text-[10rem] font-black text-green-500 italic uppercase">KUDHAN</h3>
-            <p class="text-7xl font-black italic text-white">GARAAC *222*4#</p>
-        </div>
-
-        <!-- Slide 3 -->
-        <div id="slide-3" class="slide max-w-6xl text-center px-10">
-            <h3 class="text-8xl font-black text-red-500 italic mb-10">DIGNIIN AMMAAN</h3>
-            <p class="text-6xl italic leading-tight text-slate-300">Marna qofna halla wadaagin furayaashaada sirta ah ee EVC Plus.</p>
-        </div>
-
-        <!-- Slide 4 -->
-        <div id="slide-4" class="slide">
-            <div class="video-container">
-                <video id="promo-video" class="w-full h-full object-cover" muted playsinline>
-                    <source src="https://github.com/user-attachments/assets/8b7e879a-e686-4896-806d-e5d2e6f57ff7" type="video/mp4">
-                </video>
+        <!-- SLIDE 3: KUDHAN -->
+        <div id="slide-2" class="slide space-y-10 w-full max-w-5xl">
+            <div class="text-center">
+                <h3 class="text-4xl md:text-7xl font-black text-green-500 italic uppercase">KUDHAN</h3>
+                <p class="text-slate-400 italic md:text-xl">Internet, Ku-hadal, iyo IPTV (Nasiye App)</p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 px-4">
+                <div class="flex-1 package-card border-green-500/20 py-10">
+                    <p class="text-green-500 font-black text-6xl">$0.8</p>
+                    <p class="text-xl font-bold uppercase mt-2 text-slate-300">Maalinle</p>
+                </div>
+                <div class="flex-1 package-card border-green-500 glow-green py-10 bg-green-500/10 scale-110">
+                    <p class="text-green-500 font-black text-6xl">$5.5</p>
+                    <p class="text-xl font-bold uppercase mt-2 text-slate-300">Usbuucle</p>
+                </div>
+                <div class="flex-1 package-card border-green-500/20 py-10">
+                    <p class="text-green-500 font-black text-6xl">$20</p>
+                    <p class="text-xl font-bold uppercase mt-2 text-slate-300">Bile</p>
+                </div>
+            </div>
+            <div class="text-center space-y-2">
+                <p class="text-3xl font-black text-green-400 italic">Garaac *222*4#</p>
+                <p class="text-xs text-slate-500 uppercase font-bold">Nasiye App: Daawashada TV-ga</p>
             </div>
         </div>
+
+        <!-- SLIDE 4: KU-HADAL -->
+        <div id="slide-3" class="slide space-y-10 w-full max-w-5xl">
+            <div class="text-center">
+                <h3 class="text-4xl md:text-7xl font-black text-orange-500 italic uppercase">KU-HADAL</h3>
+                <p class="text-slate-400 italic md:text-xl">Xirmooyin ku-hadal ah oo aan kaa dhacayn</p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 px-4">
+                <div class="flex-1 package-card border-orange-500/20 py-10">
+                    <p class="text-orange-500 font-black text-6xl">$0.5</p>
+                    <p class="text-xl font-bold uppercase mt-2 text-slate-300">Maalinle</p>
+                </div>
+                <div class="flex-1 package-card border-orange-500 glow-orange py-10 bg-orange-500/10 scale-110">
+                    <p class="text-orange-500 font-black text-6xl">$3</p>
+                    <p class="text-xl font-bold uppercase mt-2 text-slate-300">Usbuucle</p>
+                </div>
+                <div class="flex-1 package-card border-orange-500/20 py-10">
+                    <p class="text-orange-500 font-black text-6xl">$12</p>
+                    <p class="text-xl font-bold uppercase mt-2 text-slate-300">Bile</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <p class="text-3xl font-black text-orange-400 italic">Garaac *222*3#</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: SECURITY (SALAAM/EVC) -->
+        <div id="slide-4" class="slide bg-blue-600/5 rounded-[60px] p-10 md:p-20 border border-white/5 w-full max-w-6xl">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="flex-1 space-y-8 text-center md:text-left">
+                    <div class="w-24 h-24 bg-white rounded-3xl flex items-center justify-center shadow-2xl mb-8">
+                        <span class="text-blue-700 font-black text-xl text-center leading-none">SALAAM<br><small class="text-[8px]">BANK</small></span>
+                    </div>
+                    <h2 class="text-5xl md:text-7xl font-black text-white uppercase italic leading-tight">Qofna halla <br><span class="text-blue-500">wadaagin</span> <br>furayaasha</h2>
+                    <p class="text-2xl md:text-3xl text-slate-400 italic leading-relaxed">Furayaasha qasnadaada (PIN) waa sirtaada gaarka ah. Ha u sheegin cid kale.</p>
+                </div>
+                <div class="relative">
+                    <div class="w-[300px] md:w-[350px] aspect-[9/18] bg-slate-900 rounded-[50px] border-[12px] border-slate-800 shadow-[0_0_100px_rgba(37,99,235,0.2)] flex flex-col items-center justify-center overflow-hidden">
+                        <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+                            <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+                            <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+                            <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+                        </div>
+                        <p class="text-blue-500 font-bold mt-4 uppercase tracking-widest text-[10px]">Security Verified</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
+
+    <!-- Footer Progress -->
+    <footer class="mt-8 flex justify-between items-center py-6 border-t border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Live Display System</span>
+        </div>
+        <p class="text-[10px] font-black text-slate-600 uppercase tracking-[0.5em] italic">Hormuud Telecom © 2026</p>
+    </footer>
 
     <div class="progress-container"><div id="progress-fill"></div></div>
 
-    <script>
-        const apiKey = ""; // Environment handles authentication
-        let currentIdx = 0;
+    <!-- Audio Toggle -->
+    <button id="audio-btn" class="fixed top-8 right-8 z-[200] p-4 bg-white/5 rounded-full border border-white/10 text-slate-500 hover:text-white transition-colors">
+        <svg id="audio-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    </button>
 
-        // PCM TO WAV Function (Essential for Audio Fix)
-        function pcmToWav(pcmData, sampleRate) {
-            const buffer = new ArrayBuffer(44 + pcmData.length * 2);
-            const view = new DataView(buffer);
-            const writeString = (offset, string) => {
-                for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
-            };
-            writeString(0, 'RIFF');
-            view.setUint32(4, 32 + pcmData.length * 2, true);
-            writeString(8, 'WAVE');
-            writeString(12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true);
-            view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true);
-            view.setUint16(34, 16, true);
-            writeString(36, 'data');
-            view.setUint32(40, pcmData.length * 2, true);
-            for (let i = 0; i < pcmData.length; i++) view.setInt16(44 + i * 2, pcmData[i], true);
-            return new Blob([buffer], { type: 'audio/wav' });
+    <script>
+        let currentIdx = 0;
+        let isMuted = true;
+        const totalSlides = 5;
+
+        function updateClock() {
+            const now = new Date();
+            const days = ['Axad', 'Isniin', 'Salaaso', 'Arbaco', 'Khamiis', 'Jimce', 'Sabti'];
+            const months = ['Janaayo', 'Febraayo', 'Maarso', 'Abriil', 'Maayo', 'Juun', 'Luulyo', 'Ogosto', 'Sebteembar', 'Oktoobar', 'Nofeembar', 'Diseembar'];
+            
+            document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('day-info').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
         }
 
-        async function speakDeep(text) {
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u culus (Very Deep Voice): ${text}` }] }],
-                        generationConfig: {
-                            responseModalities: ["AUDIO"],
-                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Enceladus" } } }
-                        }
-                    })
-                });
-                const result = await response.json();
-                const audioData = result.candidates[0].content.parts[0].inlineData.data;
-                const pcm = new Int16Array(Uint8Array.from(atob(audioData), c => c.charCodeAt(0)).buffer);
-                const wav = pcmToWav(pcm, 24000);
-                const audio = new Audio(URL.createObjectURL(wav));
-                audio.play();
-            } catch (e) { console.error("Codka Error:", e); }
+        function speak(text) {
+            if (isMuted) return;
+            window.speechSynthesis.cancel();
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'en-US';
+            speech.rate = 0.9;
+            window.speechSynthesis.speak(speech);
         }
 
         function runSlides() {
-            const slides = [
-                { id: 'slide-0', time: 12, script: "Ku soo dhawaada Hormuud Telekom. Wehelkaaga dhabta ah ee nolosha." },
-                { id: 'slide-1', time: 12, script: "Xirmooyinka Anfac Plus. Garaac xiddig labo labo labo xiddig labo#" },
-                { id: 'slide-2', time: 12, script: "Xirmooyinka Kudhan ee Hormuud. Garaac xiddig labo labo labo xiddig afar#" },
-                { id: 'slide-3', time: 12, script: "Digniin ammaan. Marna qofna halla wadaagin furahaaga sirta ah ee EVC Plus." },
-                { id: 'slide-4', time: 59, script: "Hadda daawo muuqaalka bandhigga rasmiga ah ee Hormuud Telekom." }
-            ];
+            document.getElementById(`slide-${currentIdx}`).classList.remove('active');
+            currentIdx = (currentIdx + 1) % totalSlides;
+            document.getElementById(`slide-${currentIdx}`).classList.add('active');
 
-            const currentSlide = slides[currentIdx];
-            
-            // UI Updates
-            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-            document.getElementById(currentSlide.id).classList.add('active');
-
-            // Video Control
-            const vid = document.getElementById('promo-video');
-            if (currentIdx === 4) {
-                vid.currentTime = 0;
-                vid.play();
-            } else {
-                vid.pause();
-            }
-
-            // Audio
-            speakDeep(currentSlide.script);
-
-            // Progress Bar
+            // Reset progress bar animation
             const bar = document.getElementById('progress-fill');
-            bar.style.transition = 'none'; bar.style.width = '0%';
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
             setTimeout(() => {
-                bar.style.transition = `width ${currentSlide.time}s linear`;
+                bar.style.transition = 'width 10s linear';
                 bar.style.width = '100%';
             }, 50);
 
-            // Next Slide Timer
-            setTimeout(() => {
-                currentIdx = (currentIdx + 1) % slides.length;
-                runSlides();
-            }, currentSlide.time * 1000);
+            const scripts = [
+                "Welcome to Hormuud Telecom. Your partner in digital transformation.",
+                "Anfac Plus. Get internet, voice and SMS in one bundle. Dial star 2 2 2 star 2 hash.",
+                "Kudhan bundles. Unlimited internet, voice and TV. Daily, Weekly and Monthly. Dial star 2 2 2 star 4 hash.",
+                "Ku-hadal bundles. Enjoy unlimited talk time. Dial star 2 2 2 star 3 hash.",
+                "Important security reminder from Salaam Bank and EVC Plus. Never share your secret PIN with anyone."
+            ];
+            speak(scripts[currentIdx]);
         }
 
-        document.getElementById('start-btn').onclick = () => {
-            document.getElementById('start-overlay').style.display = 'none';
-            setInterval(() => {
-                document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
-            }, 1000);
-            runSlides();
+        document.getElementById('audio-btn').onclick = () => {
+            isMuted = !isMuted;
+            const icon = document.getElementById('audio-icon');
+            if (isMuted) {
+                icon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
+            } else {
+                icon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
+                speak("System active.");
+            }
         };
+
+        setInterval(updateClock, 1000);
+        setInterval(runSlides, 10000);
+        updateClock();
+        setTimeout(() => document.getElementById('progress-fill').style.width = '100%', 100);
     </script>
 </body>
 </html>
