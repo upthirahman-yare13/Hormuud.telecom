@@ -3,188 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hormuud Digital Signage</title>
+    <title>Hormuud Signage - Comprehensive</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #010409;
             color: white;
-            overflow: hidden;
-            height: 100vh;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         .slide {
             display: none;
-            animation: fadeIn 0.8s ease-out forwards;
+            animation: fadeIn 0.6s ease-out forwards;
+            width: 100%;
         }
         .slide.active {
             display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.99); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .progress-bar-inner {
-            height: 6px;
+        .progress-bar-container {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        #progress-fill {
+            height: 100%;
             background: #2563eb;
             width: 0%;
             transition: width 10s linear;
         }
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            width: 100%;
+            max-width: 1200px;
+        }
         .package-card {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
-            border-radius: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
         }
-        .price-text {
-            font-size: 15rem;
-            line-height: 1;
-            font-weight: 900;
-            letter-spacing: -0.05em;
+        .package-card.featured {
+            border-color: rgba(37, 99, 235, 0.5);
+            background: rgba(37, 99, 235, 0.05);
+        }
+        @media (max-width: 640px) {
+            .package-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero-text { font-size: 3.5rem !important; }
         }
     </style>
 </head>
-<body class="relative flex flex-col h-screen">
+<body class="p-4 md:p-10">
 
-    <!-- Background Glows -->
-    <div class="absolute top-[-20%] left-[-10%] w-[1000px] h-[1000px] bg-blue-600/5 blur-[150px] rounded-full"></div>
-    <div class="absolute bottom-[-10%] right-[-5%] w-[800px] h-[800px] bg-blue-600/5 blur-[150px] rounded-full"></div>
-
-    <!-- Header Section -->
-    <header class="p-10 px-20 flex justify-between items-center z-50">
-        <div class="flex items-center gap-8">
-            <div class="w-20 h-20 bg-blue-600 rounded-[30px] flex items-center justify-center shadow-2xl rotate-3">
-                <span class="text-white font-black text-5xl italic">H</span>
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-10 z-50">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg rotate-3">
+                <span class="text-white font-black text-2xl md:text-4xl italic">H</span>
             </div>
             <div>
-                <h1 class="text-4xl font-black tracking-tighter uppercase italic leading-none">Hormuud</h1>
-                <p class="text-blue-500 font-bold uppercase tracking-[0.4em] text-[10px] mt-2">Digital Society</p>
+                <h1 class="text-xl md:text-3xl font-black uppercase italic leading-none">Hormuud</h1>
+                <p class="text-blue-500 font-bold uppercase tracking-[0.3em] text-[8px] md:text-[10px]">Digital Society</p>
             </div>
         </div>
-
-        <div class="flex items-center gap-10 bg-white/5 backdrop-blur-xl p-5 px-10 rounded-full border border-white/10">
-            <div class="text-right pr-8 border-r border-white/10">
-                <p id="day-name" class="text-2xl font-black italic">Maalin</p>
-                <p id="full-date" class="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">Date</p>
-            </div>
-            <div id="clock" class="text-blue-500 font-black text-5xl tabular-nums tracking-tighter italic">00:00</div>
+        <div class="text-center bg-white/5 backdrop-blur-md px-6 py-2 rounded-full border border-white/10">
+            <div id="clock" class="text-blue-500 font-black text-xl md:text-3xl italic tabular-nums">00:00</div>
+            <p id="day-name" class="text-[8px] font-bold text-slate-500 uppercase tracking-widest">Maalin</p>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex items-center justify-center relative px-20 overflow-hidden">
+    <!-- Main Screens -->
+    <main class="flex-1 flex items-center justify-center">
         
-        <!-- SLIDE 1: WELCOME -->
-        <div id="slide-0" class="slide active flex-col items-center text-center space-y-10">
-            <div class="bg-blue-600/10 px-10 py-4 rounded-full border border-blue-500/20">
-                <span class="text-xl font-bold text-blue-400 uppercase tracking-[0.5em] italic">Ku Soo Dhawaada</span>
+        <!-- SLIDE 0: WELCOME -->
+        <div id="slide-0" class="slide active text-center space-y-6">
+            <div class="bg-blue-600/10 px-6 py-2 rounded-full border border-blue-500/20 w-fit mx-auto">
+                <span class="text-xs font-bold text-blue-400 uppercase tracking-widest italic">Ku Soo Dhawaada</span>
             </div>
-            <h2 class="text-[12rem] font-black tracking-tighter leading-[0.8] uppercase italic">
-                XARUNTA <br /> <span class="text-blue-600 text-[14rem]">DHEXE</span>
+            <h2 class="hero-text text-6xl md:text-[9rem] font-black tracking-tighter leading-none uppercase italic">
+                XARUNTA <br /> <span class="text-blue-600">DHEXE</span>
             </h2>
-            <p class="text-4xl text-slate-400 font-medium italic">Waayaha Nolosha Wehelka Dhabta Ah</p>
+            <p class="text-lg md:text-3xl text-slate-400 italic">Waayaha Nolosha Wehelka Dhabta Ah</p>
         </div>
 
-        <!-- SLIDE 2: ANFAC PLUS -->
-        <div id="slide-1" class="slide flex-col items-center w-full max-w-6xl">
-            <div class="package-card p-20 w-full text-center space-y-10 border-blue-500/30">
-                <h3 class="text-6xl font-black text-blue-500 italic uppercase tracking-widest">ANFAC PLUS</h3>
-                <div class="price-text italic text-white">$1.00</div>
-                <div class="space-y-4">
-                    <p class="text-6xl font-bold text-blue-400 italic">2GB Data Bundle</p>
-                    <p class="text-3xl text-slate-400 font-semibold uppercase tracking-widest">80 Minutes + 50 SMS</p>
+        <!-- SLIDE 1: ANFAC PLUS -->
+        <div id="slide-1" class="slide space-y-6">
+            <div class="text-center space-y-2">
+                <h3 class="text-4xl md:text-6xl font-black text-blue-500 italic uppercase">ANFAC PLUS</h3>
+                <p class="text-slate-400 text-sm md:text-lg italic max-w-3xl mx-auto px-4">
+                    Macmiil, iibso xirmo isugu jirta Internet Data, ku hadal iyo farriin qoraal wada socda.
+                </p>
+            </div>
+            <div class="package-grid px-4">
+                <div class="package-card"><p class="text-blue-500 font-black text-xl">$0.25</p><p class="text-[10px] font-bold">400MB, 10 Daq.</p></div>
+                <div class="package-card featured"><p class="text-blue-500 font-black text-xl">$0.50</p><p class="text-[10px] font-bold">850MB, 30 Daq.</p></div>
+                <div class="package-card border-blue-500 shadow-xl"><p class="text-blue-500 font-black text-xl">$1.00</p><p class="text-[10px] font-bold">2GB, 80 Daq, 50 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-xl">$2.00</p><p class="text-[10px] font-bold">5GB, 160 Daq, 100 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-xl">$5.00</p><p class="text-[10px] font-bold">12GB, 400 Daq, 150 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-xl">$10.00</p><p class="text-[10px] font-bold">28GB, 800 Daq, 300 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-xl">$20.00</p><p class="text-[10px] font-bold">60GB, 1600 Daq, 500 SMS</p></div>
+                <div class="package-card"><p class="text-blue-500 font-black text-xl">$50.00</p><p class="text-[10px] font-bold text-slate-400">140GB, 4000 Daq</p></div>
+            </div>
+            <div class="text-center"><p class="text-blue-400 font-black text-xl md:text-3xl italic animate-pulse">GARAAC *222*2#</p></div>
+        </div>
+
+        <!-- SLIDE 2: KUDHAN -->
+        <div id="slide-2" class="slide space-y-8">
+            <div class="text-center space-y-2 px-4">
+                <h3 class="text-4xl md:text-6xl font-black text-green-500 italic uppercase">XIRMOOYINKA KUDHAN</h3>
+                <p class="text-slate-400 text-sm md:text-lg italic max-w-3xl mx-auto">
+                    Adeegga KUDHAN waxaad ku heli kartaa Internet, ku-hadal, iyo IPTV (Nasiye App).
+                </p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl px-4">
+                <div class="flex-1 bg-white/5 p-8 rounded-[40px] border border-green-500/20 text-center">
+                    <p class="text-green-500 font-black text-5xl">$0.8</p>
+                    <p class="text-xl font-bold uppercase mt-2">Maalinle</p>
                 </div>
-                <div class="pt-10">
-                    <span class="bg-white/10 px-12 py-5 rounded-full text-2xl font-black tracking-[0.5em]">GARAAC *222#</span>
+                <div class="flex-1 bg-green-500/10 p-8 rounded-[40px] border border-green-500 shadow-xl text-center scale-105">
+                    <p class="text-green-500 font-black text-5xl">$5.5</p>
+                    <p class="text-xl font-bold uppercase mt-2">Usbuucle</p>
                 </div>
+                <div class="flex-1 bg-white/5 p-8 rounded-[40px] border border-green-500/20 text-center">
+                    <p class="text-green-500 font-black text-5xl">$20</p>
+                    <p class="text-xl font-bold uppercase mt-2">Bile</p>
+                </div>
+            </div>
+            <div class="text-center space-y-4">
+                <p class="text-2xl font-black text-green-400 italic">Garaac *222*4#</p>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest">Kala soo deg Nasiye App: Android & iOS</p>
             </div>
         </div>
 
-        <!-- SLIDE 3: KU-HADAL -->
-        <div id="slide-2" class="slide flex-col items-center w-full max-w-6xl">
-            <div class="package-card p-20 w-full text-center space-y-10 border-orange-500/30">
-                <h3 class="text-6xl font-black text-orange-500 italic uppercase tracking-widest">KU-HADAL AAN XADIDNAYN</h3>
-                <div class="price-text italic text-white">$0.50</div>
-                <div class="space-y-4">
-                    <p class="text-6xl font-bold text-orange-400 italic">MAALINLE (24 HOURS)</p>
-                    <p class="text-3xl text-slate-400 font-semibold uppercase tracking-widest">Hadalkaan Dhamaanayn</p>
+        <!-- SLIDE 3: KU-HADAL AAN XADIDNAYN -->
+        <div id="slide-3" class="slide space-y-8">
+            <div class="text-center space-y-2 px-4">
+                <h3 class="text-4xl md:text-6xl font-black text-orange-500 italic uppercase leading-tight">KU-HADAL <br>AAN XADIDNAYN</h3>
+                <p class="text-slate-400 text-sm md:text-lg italic max-w-3xl mx-auto">
+                    Xirmooyin ku-hadal ah oo aan kaa dhacayn, kaana dhammaaneyn.
+                </p>
+            </div>
+            <div class="flex flex-col md:flex-row gap-6 w-full max-w-5xl px-4">
+                <div class="flex-1 bg-white/5 p-8 rounded-[40px] border border-orange-500/20 text-center">
+                    <p class="text-orange-500 font-black text-5xl">$0.5</p>
+                    <p class="text-xl font-bold uppercase mt-2">Maalinle</p>
                 </div>
-                <div class="pt-10">
-                    <span class="bg-white/10 px-12 py-5 rounded-full text-2xl font-black tracking-[0.5em]">GARAAC *222*3#</span>
+                <div class="flex-1 bg-orange-500/10 p-8 rounded-[40px] border border-orange-500 shadow-xl text-center scale-105">
+                    <p class="text-orange-500 font-black text-5xl">$3</p>
+                    <p class="text-xl font-bold uppercase mt-2">Usbuucle</p>
                 </div>
+                <div class="flex-1 bg-white/5 p-8 rounded-[40px] border border-orange-500/20 text-center">
+                    <p class="text-orange-500 font-black text-5xl">$12</p>
+                    <p class="text-xl font-bold uppercase mt-2">Bile</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <p class="text-2xl font-black text-orange-400 italic">Garaac *222*3#</p>
             </div>
         </div>
 
-        <!-- SLIDE 4: KUDHAN -->
-        <div id="slide-3" class="slide flex-col items-center w-full max-w-6xl">
-            <div class="package-card p-20 w-full text-center space-y-10 border-green-500/30">
-                <h3 class="text-6xl font-black text-green-500 italic uppercase tracking-widest">XIRMOOYINKA KUDHAN</h3>
-                <div class="price-text italic text-white">$20.00</div>
-                <div class="space-y-4">
-                    <p class="text-6xl font-bold text-green-400 italic">BILE (30 MAALMOOD)</p>
-                    <p class="text-3xl text-slate-400 font-semibold uppercase tracking-widest">Unlimited Internet + IPTV</p>
-                </div>
-                <div class="pt-10">
-                    <span class="bg-white/10 px-12 py-5 rounded-full text-2xl font-black tracking-[0.5em]">GARAAC *222*4#</span>
-                </div>
+        <!-- SLIDE 4: SECURITY -->
+        <div id="slide-4" class="slide flex-col md:flex-row items-center gap-10 px-6">
+            <div class="flex-1 space-y-6 text-center md:text-left">
+                <h2 class="text-5xl md:text-8xl font-black text-orange-500 italic leading-none">AMNIGA <br><span class="text-white">EVC PLUS</span></h2>
+                <p class="text-lg md:text-2xl text-slate-400 italic">Marna ha la wadaagin PIN-kaaga cid kale. Ka digtoonow khayaanada.</p>
+                <div class="bg-blue-600 px-8 py-3 rounded-2xl w-fit mx-auto md:mx-0 font-black text-3xl italic">141</div>
             </div>
-        </div>
-
-        <!-- SLIDE 5: SECURITY -->
-        <div id="slide-4" class="slide flex-row items-center gap-32 w-full px-10">
-            <div class="flex-1 space-y-16 text-left">
-                <h2 class="text-[9rem] font-black tracking-tighter uppercase italic leading-[0.8] text-orange-500">AMNIGA <br/><span class="text-white text-[11rem]">EVC PLUS</span></h2>
-                <p class="text-4xl text-slate-400 italic leading-[1.4] max-w-3xl">Marna ha la wadaagin PIN-kaaga cid kale. Hormuud marna ku weydiin mayso PIN-kaaga.</p>
-                <div class="bg-blue-600 p-10 rounded-[40px] shadow-2xl w-fit">
-                    <p class="text-6xl font-black italic">141</p>
-                    <p class="text-xs font-black uppercase tracking-widest mt-3 text-white/80">Support Center</p>
-                </div>
-            </div>
-            <div class="w-[450px] h-[750px] bg-black rounded-[90px] border-[16px] border-slate-900 shadow-[0_0_150px_rgba(37,99,235,0.15)] p-12 flex flex-col justify-center text-center rotate-3 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-                <p class="text-xl font-bold text-slate-500 uppercase tracking-widest mb-4">EVC PLUS Balance</p>
-                <div class="text-8xl font-black italic tracking-tighter text-blue-500">$3,250.00</div>
+            <div class="w-full max-w-[280px] aspect-[9/16] bg-black rounded-[40px] border-[8px] border-slate-900 flex flex-col justify-center text-center shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 w-full h-1 bg-blue-600"></div>
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">EVC PLUS</p>
+                <p class="text-4xl font-black text-blue-500 italic">$3,250.00</p>
             </div>
         </div>
     </main>
 
-    <!-- Footer Progress -->
-    <footer class="w-full">
-        <div class="h-2 bg-white/5 w-full">
-            <div id="progress-bar" class="progress-bar-inner"></div>
+    <!-- Footer -->
+    <footer class="mt-auto py-6 flex justify-between items-center border-t border-white/5">
+        <div class="flex items-center gap-2">
+            <div class="w-2 h-2 bg-green-500 rounded-full animate-ping"></div>
+            <span class="text-[9px] font-black text-slate-500 uppercase tracking-widest">Active System</span>
         </div>
-        <div class="p-8 px-20 flex justify-between items-center bg-black/40 backdrop-blur-2xl">
-            <div class="flex gap-10 items-center">
-                <div class="flex items-center gap-3">
-                    <div class="w-3 h-3 bg-green-500 rounded-full animate-ping"></div>
-                    <span class="text-xs font-black text-green-500 uppercase tracking-widest">Active Display</span>
-                </div>
-                <span class="text-xs font-black text-slate-500 uppercase tracking-widest">Mogadishu HQ</span>
-            </div>
-            <p class="text-[10px] font-black text-slate-600 uppercase tracking-[1em] italic">Hormuud Telecom © 2026</p>
-        </div>
+        <p class="text-[9px] font-black text-slate-600 uppercase tracking-[0.5em] italic">Hormuud Telecom © 2026</p>
     </footer>
 
-    <!-- Audio Control -->
-    <button id="audio-toggle" class="absolute top-12 right-12 z-[100] p-6 bg-white/5 rounded-full hover:bg-white/10 transition-all text-slate-400 border border-white/10">
-        <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <!-- Progress Bar -->
+    <div class="progress-bar-container"><div id="progress-fill"></div></div>
+
+    <!-- Audio Toggle -->
+    <button id="audio-btn" class="fixed top-8 right-8 z-[200] p-4 bg-white/5 rounded-full border border-white/10 text-slate-500">
+        <svg id="audio-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
     </button>
 
     <script>
-        let currentSlide = 0;
+        let idx = 0;
         let isMuted = true;
-        const totalSlides = 5;
+        const slidesCount = 5;
 
-        function updateClock() {
-            const now = new Date();
+        function updateTime() {
             const days = ['Axad', 'Isniin', 'Salaaso', 'Arbaco', 'Khamiis', 'Jimce', 'Sabti'];
-            const months = ['Janaayo', 'Febraayo', 'Maarso', 'Abriil', 'Maayo', 'Juun', 'Luulyo', 'Ogosto', 'Sebteembar', 'Oktoobar', 'Nofeembar', 'Diseembar'];
-            
+            const now = new Date();
             document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
             document.getElementById('day-name').textContent = days[now.getDay()];
-            document.getElementById('full-date').textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
         }
 
         function speak(text) {
@@ -192,54 +228,48 @@
             window.speechSynthesis.cancel();
             const msg = new SpeechSynthesisUtterance(text);
             msg.lang = 'en-US';
-            msg.rate = 0.85;
+            msg.rate = 0.9;
             window.speechSynthesis.speak(msg);
         }
 
-        function nextSlide() {
-            document.getElementById(`slide-${currentSlide}`).classList.remove('active');
-            currentSlide = (currentSlide + 1) % totalSlides;
-            document.getElementById(`slide-${currentSlide}`).classList.add('active');
-            
-            // Reset Progress Bar
-            const prog = document.getElementById('progress-bar');
-            prog.style.transition = 'none';
-            prog.style.width = '0%';
+        function rotateSlides() {
+            document.getElementById(`slide-${idx}`).classList.remove('active');
+            idx = (idx + 1) % slidesCount;
+            document.getElementById(`slide-${idx}`).classList.add('active');
+
+            const bar = document.getElementById('progress-fill');
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
             setTimeout(() => {
-                prog.style.transition = 'width 10s linear';
-                prog.style.width = '100%';
+                bar.style.transition = 'width 10s linear';
+                bar.style.width = '100%';
             }, 50);
 
-            // Announcements
-            const messages = [
-                "Welcome to the Hormuud Telecom Head Office.",
-                "Get our best Anfac Plus bundle for just one dollar. Two gigabytes of data and eighty minutes.",
-                "Stay connected all day with our Unlimited Voice bundle for only fifty cents.",
-                "Upgrade to Kudhan monthly bundle for twenty dollars. Enjoy unlimited internet and I-P-T-V.",
-                "Important security update. Please never share your E-V-C Plus secret P-I-N with anyone."
+            const scripts = [
+                "Welcome to Hormuud Telecom Head Office.",
+                "Anfac Plus bundles. Great data and voice starting from twenty five cents. Dial star 2 2 2 star 2 hash.",
+                "New Kudhan bundles. Internet, Voice, and IPTV. Daily, Weekly and Monthly. Dial star 2 2 2 star 4 hash.",
+                "Unlimited Voice bundles. Never run out of talk time. Daily, Weekly and Monthly options. Dial star 2 2 2 star 3 hash.",
+                "Protect your money. Do not share your E-V-C Plus secret PIN with anyone."
             ];
-            speak(messages[currentSlide]);
+            speak(scripts[idx]);
         }
 
-        document.getElementById('audio-toggle').onclick = () => {
+        document.getElementById('audio-btn').onclick = () => {
             isMuted = !isMuted;
-            const icon = document.getElementById('mute-icon');
+            const icon = document.getElementById('audio-icon');
             if (isMuted) {
                 icon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>';
             } else {
                 icon.innerHTML = '<path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>';
-                speak("Voice display active.");
+                speak("Voice enabled.");
             }
         };
 
-        setInterval(updateClock, 1000);
-        setInterval(nextSlide, 10000); // 10 second interval
-        updateClock();
-        
-        // Initial bar
-        setTimeout(() => {
-            document.getElementById('progress-bar').style.width = '100%';
-        }, 100);
+        setInterval(updateTime, 1000);
+        setInterval(rotateSlides, 10000);
+        updateTime();
+        setTimeout(() => document.getElementById('progress-fill').style.width = '100%', 100);
     </script>
 </body>
 </html>
