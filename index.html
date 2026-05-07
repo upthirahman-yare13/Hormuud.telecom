@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hormuud Multimedia Signage - Luxury Version</title>
+    <title>Hormuud Digital Signage - Mobile Optimized</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-green: #1a9e4a;
-            --deep-bg: #030a16; /* Deep Midnight Blue - More elegant than pure black */
-            --glass: rgba(255, 255, 255, 0.05);
+            --deep-bg: #020617;
+            --glass: rgba(255, 255, 255, 0.03);
+            --accent-glow: rgba(26, 158, 74, 0.15);
         }
 
         body { 
@@ -21,34 +22,33 @@
             min-height: 100vh; 
             display: flex; 
             flex-direction: column; 
-            /* Push everything slightly down */
-            padding-top: 2rem;
+            padding-top: 3.5rem;
         }
 
-        .slide { display: none; width: 100%; flex-grow: 1; animation: slideIn 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide { display: none; width: 100%; flex-grow: 1; animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         .slide.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        @keyframes slideIn { 
-            from { opacity: 0; transform: translateY(20px); } 
-            to { opacity: 1; transform: translateY(0); } 
+        @keyframes slideUp { 
+            from { opacity: 0; transform: translateY(30px); filter: blur(10px); } 
+            to { opacity: 1; transform: translateY(0); filter: blur(0); } 
         }
         
-        .progress-container { height: 8px; background: rgba(255, 255, 255, 0.03); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
-        #progress-fill { height: 100%; background: linear-gradient(90deg, #1a9e4a, #34d399, #1a9e4a); width: 0%; box-shadow: 0 0 20px rgba(26, 158, 74, 0.5); }
+        .progress-container { height: 6px; background: rgba(255, 255, 255, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
+        #progress-fill { height: 100%; background: linear-gradient(90deg, #1a9e4a, #10b981, #1a9e4a); width: 0%; transition: width linear; }
         
         .grid-card { 
-            background: rgba(255, 255, 255, 0.04); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            padding: 25px; 
-            border-radius: 30px; 
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            padding: 1.5rem; 
+            border-radius: 24px; 
             text-align: center;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         #start-overlay { 
             position: fixed; 
             inset: 0; 
-            background: radial-gradient(circle at center, #0a192f 0%, #030a16 100%); 
+            background: #000; 
             z-index: 2000; 
             display: flex; 
             flex-direction: column; 
@@ -57,153 +57,142 @@
         }
         
         .video-box { 
-            width: 95%; 
-            height: 85%; 
-            max-width: 1500px; 
-            border-radius: 50px; 
+            width: 92%; 
+            aspect-ratio: 16/9;
+            max-width: 1200px; 
+            border-radius: 30px; 
             overflow: hidden; 
-            border: 12px solid rgba(255, 255, 255, 0.05); 
-            background: black; 
-            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7);
+            border: 4px solid rgba(255, 255, 255, 0.1); 
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
         
         .glass-panel {
             background: var(--glass);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px;
+            border-radius: 20px;
         }
 
-        .hormuud-text { color: var(--primary-green); }
+        .hormuud-text { color: #22c55e; }
         .hormuud-bg { background-color: var(--primary-green); }
 
-        /* Typography sizing improvements */
-        .title-xl { font-size: 6rem; line-height: 1; letter-spacing: -0.02em; }
-        .price-text { font-size: 3.5rem; line-height: 1; }
+        .title-main { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1.1; font-weight: 800; }
+        .sub-title { font-size: clamp(1rem, 3vw, 1.5rem); opacity: 0.7; }
+        
+        .float { animation: floatAnim 4s ease-in-out infinite; }
+        @keyframes floatAnim {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .alert-box {
+            border-left: 4px solid #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
     </style>
 </head>
-<body class="p-6 md:p-10">
+<body class="p-4 md:p-8">
 
     <!-- Start Overlay -->
     <div id="start-overlay">
-        <div class="mb-12 animate-bounce">
-            <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Hormuud" class="h-32">
-        </div>
-        <button id="start-btn" class="px-16 py-8 hormuud-bg hover:scale-105 active:scale-95 text-white rounded-full font-black text-4xl transition-all shadow-[0_0_50px_rgba(26,158,74,0.4)] uppercase tracking-tighter">Bilow Bandhigga</button>
-        <p class="mt-8 text-slate-400 text-lg uppercase tracking-[0.3em] font-light">Digital Experience</p>
+        <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Hormuud" class="h-24 mb-10 float">
+        <button id="start-btn" class="px-12 py-5 hormuud-bg text-white rounded-2xl font-bold text-2xl shadow-lg hover:brightness-110 active:scale-95 transition-all">FUR BANDHIGGA</button>
     </div>
 
     <!-- Header -->
-    <header class="flex justify-between items-center mb-12 px-4">
-        <div class="flex items-center gap-8">
-            <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Hormuud Logo" class="h-20 drop-shadow-lg">
+    <header class="flex flex-wrap justify-between items-start gap-4 mb-8 px-2">
+        <div class="flex items-center gap-4">
+            <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Logo" class="h-12 md:h-16">
         </div>
         
-        <div class="flex items-center gap-6">
-            <div class="glass-panel px-8 py-3 flex flex-col items-end min-w-[150px]">
-                <span id="top-day" class="text-xs font-black uppercase text-emerald-400 tracking-widest">Maalinta</span>
-                <span id="top-date" class="text-lg font-bold">--/--/----</span>
+        <div class="flex gap-3">
+            <div class="glass-panel px-4 py-2 flex items-center gap-3 border-b-2 border-orange-400">
+                <div class="text-orange-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M22 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                </div>
+                <div class="leading-none">
+                    <span class="block text-[10px] uppercase opacity-50 font-bold">Muqdisho</span>
+                    <span class="text-lg font-black">31°C</span>
+                </div>
             </div>
-            <div class="glass-panel px-10 py-3 border-l-8 border-emerald-500">
-                <div id="clock" class="text-white font-black text-5xl italic tabular-nums">00:00</div>
+
+            <div class="glass-panel px-4 py-2 flex items-center gap-4 border-b-2 border-emerald-500">
+                <div class="text-right leading-none">
+                    <span id="top-day" class="block text-[10px] uppercase text-emerald-400 font-bold tracking-tighter">Maalin</span>
+                    <span id="top-date" class="text-sm font-bold whitespace-nowrap">--/--/----</span>
+                </div>
+                <div id="clock" class="text-2xl md:text-3xl font-black tabular-nums border-l border-white/10 pl-4">00:00</div>
             </div>
         </div>
     </header>
 
-    <main class="flex-1 flex items-center justify-center">
+    <main class="flex-1 flex items-center justify-center relative">
         <!-- Slide 0: Welcome -->
         <div id="slide-0" class="slide active text-center">
-            <div class="relative inline-block">
-                <div class="absolute -inset-20 bg-emerald-500/20 blur-[120px] rounded-full"></div>
-                <h2 class="title-xl font-black uppercase italic text-white drop-shadow-2xl relative">
-                    KUSOO DHAWAADA <br>
-                    <span class="hormuud-text italic">HORMUUD TELECOM</span>
-                </h2>
-            </div>
-            <p class="text-4xl mt-12 opacity-80 max-w-4xl mx-auto font-light leading-relaxed">Ku raaxayso adeegyo tayo leh oo daboolaya dhammaan baahiyahaaga isgaarsiineed.</p>
+            <h2 class="title-main uppercase italic">
+                KUSOO DHAWAADA <br>
+                <span class="hormuud-text">HORMUUD</span>
+            </h2>
+            <p class="sub-title mt-4 max-w-lg mx-auto">Ku raaxayso adeegyo tayo leh oo daboolaya dhammaan baahiyahaaga.</p>
         </div>
 
         <!-- Slide 1: Anfac Plus -->
-        <div id="slide-1" class="slide w-full max-w-7xl">
-            <div class="text-center mb-12">
-                <h3 class="text-8xl font-black hormuud-text italic uppercase mb-2">ANFAC PLUS</h3>
-                <p class="text-3xl italic opacity-60">Xirmooyinka isku-dhafka ah ee ugu jaban</p>
+        <div id="slide-1" class="slide w-full max-w-4xl">
+            <div class="text-center mb-6">
+                <h3 class="text-4xl md:text-6xl font-black hormuud-text italic uppercase">ANFAC PLUS</h3>
+                <p class="text-sm md:text-lg opacity-60">Xirmooyinka ugu jaban uguna fiican</p>
             </div>
-            <div class="grid grid-cols-4 gap-6 px-4">
-                <div class="grid-card"><p class="hormuud-text font-black text-5xl">$0.25</p><p class="text-xl mt-2">400MB + 10 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-5xl">$0.5</p><p class="text-xl mt-2">850MB + 30 Min</p></div>
-                <div class="grid-card border-emerald-500 bg-emerald-500/20 scale-110 shadow-2xl z-10"><p class="hormuud-text font-black text-6xl">$1</p><p class="text-xl mt-2 font-bold text-white">2GB + 80 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-5xl">$2</p><p class="text-xl mt-2">5GB + 160 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-5xl">$5</p><p class="text-xl mt-2">12GB + 400 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-5xl">$10</p><p class="text-xl mt-2">28GB + 800 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-5xl">$20</p><p class="text-xl mt-2">60GB + 1600 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-5xl">$50</p><p class="text-xl mt-2">140GB + 4000 Min</p></div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 px-2">
+                <div class="grid-card"><p class="hormuud-text font-black text-2xl">$0.25</p><p class="text-xs">400MB + 10m</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-2xl">$0.5</p><p class="text-xs">850MB + 30m</p></div>
+                <div class="grid-card ring-2 ring-emerald-500 bg-emerald-500/10"><p class="hormuud-text font-black text-3xl">$1</p><p class="text-xs font-bold text-white">2GB + 80m</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-2xl">$2</p><p class="text-xs">5GB + 160m</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-2xl">$5</p><p class="text-xs">12GB + 400m</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-2xl">$10</p><p class="text-xs">28GB + 800m</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-2xl">$20</p><p class="text-xs">60GB + 1600m</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-2xl">$50</p><p class="text-xs">140GB + 4000m</p></div>
             </div>
-            <p class="text-center font-black text-6xl mt-12 italic text-emerald-400 animate-pulse uppercase">Garaac *222*2#</p>
+            <p class="text-center font-black text-3xl md:text-5xl mt-8 text-emerald-400 italic">Garaac *222*2#</p>
         </div>
 
-        <!-- Slide 2: Kudhan -->
-        <div id="slide-2" class="slide w-full max-w-6xl">
-            <div class="text-center mb-12">
-                <h3 class="text-9xl font-black text-emerald-500 italic uppercase">KUDHAN</h3>
-                <p class="text-3xl italic opacity-70">Data, Voice, iyo TV-ga Nasiye</p>
+        <!-- Slide 2: Kudhan, Nasiye & Maamuus -->
+        <div id="slide-2" class="slide w-full max-w-4xl">
+            <div class="text-center mb-6">
+                <h3 class="text-4xl md:text-6xl font-black text-emerald-500 italic uppercase">NASIYE & MAAMUUS</h3>
+                <p class="sub-title">Internet-ka Guriga iyo Adeegyada VIP-da</p>
             </div>
-            <div class="flex gap-8 w-full px-6">
-                <div class="flex-1 grid-card py-12"><p class="text-emerald-500 font-black text-7xl">$0.8</p><p class="text-2xl uppercase mt-4">Maalinle</p></div>
-                <div class="flex-1 grid-card border-emerald-500 bg-emerald-500/15 py-16 scale-110 shadow-2xl"><p class="text-emerald-500 font-black text-9xl">$20</p><p class="text-4xl uppercase mt-4 font-black">Bile</p></div>
-                <div class="flex-1 grid-card py-12"><p class="text-emerald-500 font-black text-7xl">$5.5</p><p class="text-2xl uppercase mt-4">Usbuucle</p></div>
-            </div>
-            <p class="text-center font-black text-6xl mt-12 italic text-emerald-400 uppercase">Garaac *222*4#</p>
-        </div>
-
-        <!-- Slide 3: Ku-Hadal -->
-        <div id="slide-3" class="slide text-center max-w-6xl">
-            <h3 class="text-9xl font-black text-yellow-500 italic uppercase mb-10">KU-HADAL <br>AAN XADIDNAYN</h3>
-            <div class="flex gap-8 justify-center mb-12">
-                <div class="grid-card w-64 py-10"><p class="text-yellow-500 font-black text-6xl">$0.5</p><p class="text-2xl mt-2">Maalinle</p></div>
-                <div class="grid-card w-72 py-12 border-yellow-500 bg-yellow-500/10 scale-110"><p class="text-yellow-500 font-black text-7xl">$3</p><p class="text-2xl mt-2 font-bold">Usbuucle</p></div>
-                <div class="grid-card w-64 py-10"><p class="text-yellow-500 font-black text-6xl">$12</p><p class="text-2xl mt-2">Bile</p></div>
-            </div>
-            <p class="text-7xl font-black text-yellow-400 italic animate-bounce">GARAAC *222*3#</p>
-        </div>
-
-        <!-- Slide 4: Waafi App -->
-        <div id="slide-4" class="slide text-center px-10">
-            <div class="bg-white/5 p-20 rounded-[60px] border border-white/10 relative overflow-hidden">
-                <div class="absolute -top-20 -left-20 w-64 h-64 bg-emerald-500/10 blur-[100px] rounded-full"></div>
-                <h3 class="text-[10rem] font-black text-white italic uppercase tracking-tighter leading-none">WAAFI <span class="hormuud-text">APP</span></h3>
-                <p class="text-5xl italic font-light mt-10 mb-16 leading-tight max-w-5xl mx-auto">Dhammaan adeegyadaada maaliyadeed (EVC Plus, Taaj, Bangi) hal meel ku maamul.</p>
-                <div class="hormuud-bg px-20 py-8 rounded-full text-5xl font-black italic inline-block shadow-2xl hover:scale-105 transition-transform cursor-pointer">DOWNLOAD WAAFI</div>
-            </div>
-        </div>
-
-        <!-- Slide 5: Nasiye -->
-        <div id="slide-5" class="slide text-center space-y-12">
-            <h3 class="text-9xl font-black text-white italic uppercase">NASIYE <span class="hormuud-text">TV</span></h3>
-            <div class="bg-gradient-to-br from-emerald-950/40 to-black p-16 rounded-[60px] border border-emerald-500/20 space-y-8 min-w-[800px]">
-                <h4 class="text-5xl font-bold text-emerald-400 uppercase tracking-widest">Champions League Caawa</h4>
-                <div class="text-8xl font-black italic flex items-center justify-center gap-10">
-                    <span>Real Madrid</span>
-                    <span class="hormuud-text text-5xl">VS</span>
-                    <span>Bayern</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full px-4">
+                <div class="grid-card border-b-4 border-emerald-500">
+                    <h4 class="text-2xl font-bold mb-2">NASIYE (WIFI)</h4>
+                    <p class="opacity-70 text-sm mb-4">Internet xawaarihiisu sareeyo oo gurigaaga ah</p>
+                    <p class="text-emerald-500 font-black text-4xl italic">Garaac *222*4#</p>
                 </div>
-                <p class="text-4xl text-slate-400 font-light">22:00 PM Habeenimo • Toos u daawo</p>
+                <div class="grid-card border-b-4 border-blue-500">
+                    <h4 class="text-2xl font-bold mb-2">MAAMUUS</h4>
+                    <p class="opacity-70 text-sm mb-4">Adeeg gaar u ah macaamiisha VIP-da</p>
+                    <p class="text-blue-400 font-black text-4xl italic">Garaac *222*11#</p>
+                </div>
+            </div>
+            <!-- Digniin / Warning -->
+            <div class="mt-8 mx-auto max-w-2xl alert-box p-4 rounded-xl flex items-center gap-4">
+                <div class="text-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                </div>
+                <p class="text-sm font-bold text-red-200">DIGNIIN: Macmiil, ha la wadaagin PIN-kaaga EVC Plus qof kale. Hormuud ku weydiisan meyso PIN-kaaga taleefan ama farriin.</p>
             </div>
         </div>
 
-        <!-- Slide 6: Maamuus -->
-        <div id="slide-6" class="slide text-center">
-            <div class="hormuud-bg px-12 py-4 rounded-3xl text-3xl font-black italic inline-block mb-10 shadow-xl">SPECIAL OFFER</div>
-            <h3 class="text-[9rem] font-black text-white italic leading-none mb-4">MAAMUUS</h3>
-            <p class="text-6xl font-bold italic text-emerald-400 uppercase tracking-tighter mb-10">UNLIMITED DATA + VOICE</p>
-            <div class="text-9xl font-black mb-10">$11 <span class="text-4xl opacity-50 font-light">/ 14 Days</span></div>
-            <div class="bg-white/5 border border-white/10 px-16 py-8 rounded-full inline-block">
-                <p class="text-5xl italic font-black uppercase text-emerald-400">Garaac *744*No*11#</p>
+        <!-- Slide 3: Waafi App -->
+        <div id="slide-3" class="slide text-center px-6">
+            <div class="glass-panel p-10 rounded-[40px] relative overflow-hidden max-w-2xl">
+                <h3 class="text-5xl md:text-7xl font-black italic mb-4 leading-none">WAAFI <span class="hormuud-text">APP</span></h3>
+                <p class="text-lg md:text-xl opacity-70 mb-8">Dhammaan adeegyadaada maaliyadeed hal meel ku maamul.</p>
+                <div class="hormuud-bg px-10 py-4 rounded-xl text-xl font-bold inline-block shadow-xl">DOWNLOAD NOW</div>
             </div>
         </div>
 
-        <!-- Slide 7: Video -->
-        <div id="slide-7" class="slide">
+        <!-- Slide 4: Video -->
+        <div id="slide-4" class="slide">
             <div class="video-box">
                 <video id="promo-video" class="w-full h-full object-cover" muted playsinline>
                     <source src="https://github.com/user-attachments/assets/8b7e879a-e686-4896-806d-e5d2e6f57ff7" type="video/mp4">
@@ -212,35 +201,27 @@
         </div>
     </main>
 
-    <!-- Global Progress Bar -->
+    <!-- Progress Bar -->
     <div class="progress-container"><div id="progress-fill"></div></div>
 
     <script>
         const apiKey = ""; 
         let current = 0;
         const slides = [
-            { id: 'slide-0', time: 10, script: "Kusoo dhawaada Hormuud Telecom, wehelkaaga dhabta ah ee nolosha." },
-            { id: 'slide-1', time: 15, script: "Xirmooyinka Anfac Plus, iibso xirmo isugu jirta Internet, ku hadal iyo farriin qoraal ah oo aad u jaban. Kaliya garaac xiddig labo labo labo xiddig labo#." },
-            { id: 'slide-2', time: 12, script: "Adeegga casriga ah ee Kudhan. Hel Internet, ku-hadal, iyo IPTV hal meel ah. Garaac xiddig labo labo labo xiddig afar#." },
-            { id: 'slide-3', time: 12, script: "Ku-hadal aan xadidnayn oo aan kaa dhacayn. Garaac xiddig labo labo labo xiddig saddex#." },
-            { id: 'slide-4', time: 12, script: "WAAFI App. Ma ogtahay in aad ka heli karto dhammaan adeegyadaada maaliyadeed? Kala soo deg Waafi App dukaamada Apps-ka hadda." },
-            { id: 'slide-5', time: 12, script: "Ka daawo Nasiye kulamada xiisaha badan ee Champions League caawa tobanka habeenimo toos u daawo." },
-            { id: 'slide-6', time: 12, script: "Dalab gaar ah! Hel Internet iyo ku hadal aan xadidnayn muddo labo toddobaad ah oo kaliya kow iyo toban doolar." },
-            { id: 'slide-7', time: 59, script: "Hadda daawo fiidiyowga bandhigga rasmiga ah ee Hormuud Telekom." }
+            { id: 'slide-0', time: 8, script: "Kusoo dhawaada Hormuud Telekom, wehelkaaga dhabta ah ee nolosha." },
+            { id: 'slide-1', time: 15, script: "Xirmooyinka Anfac Plus waa kuwo isku dhaf ah. Garaac xiddig labo labo labo xiddig labo# si aad u iibsato." },
+            { id: 'slide-2', time: 15, script: "Adeegga Nasiye hel internet xawaarihiisu sarreeyo, iyo adeegga Maamuus oo loogu talagalay macaamiisha VIPda. Macmiil, marnaba ha bixin lambarkaaga sirta ah ee EVC-Plus." },
+            { id: 'slide-3', time: 10, script: "WAAFI App waa saaxiibkaaga maaliyadeed. Soo degso hadda si aad u fududeyso noloshaada." },
+            { id: 'slide-4', time: 59, script: "Daawo muuqaalka kooban ee adeegyada Hormuud." }
         ];
 
         function updateDateTime() {
             const now = new Date();
             document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
-            
             const days = ['Axad', 'Isniin', 'Talaado', 'Arbaco', 'Khamiis', 'Jimco', 'Sabti'];
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            
-            const dayName = days[now.getDay()];
-            const formattedDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-            
-            document.getElementById('top-day').textContent = dayName;
-            document.getElementById('top-date').textContent = formattedDate;
+            document.getElementById('top-day').textContent = days[now.getDay()];
+            document.getElementById('top-date').textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
         }
 
         function pcmToWav(pcmData, sampleRate) {
@@ -257,11 +238,11 @@
         async function speak(text) {
             if(!apiKey) return;
             try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u culus oo degan: ${text}` }] }],
+                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u degan oo soo jiidasho leh: ${text}` }] }],
                         generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Enceladus" } } } }
                     })
                 });
@@ -271,7 +252,7 @@
                 const wav = pcmToWav(pcm, 24000);
                 const audio = new Audio(URL.createObjectURL(wav));
                 audio.play();
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("TTS Error:", e); }
         }
 
         function run() {
@@ -281,19 +262,18 @@
             currentElement.classList.add('active');
 
             const vid = document.getElementById('promo-video');
-            if (current === 7) { 
+            if (s.id === 'slide-4') { 
                 vid.currentTime = 0; 
-                vid.play().catch(e => console.log("Video play failed:", e)); 
+                vid.play().catch(e => console.log("Video Error:", e)); 
             } else { 
                 vid.pause(); 
             }
 
             speak(s.script);
-            updateDateTime();
 
             const bar = document.getElementById('progress-fill');
             bar.style.transition = 'none'; bar.style.width = '0%';
-            setTimeout(() => { bar.style.transition = `width ${s.time}s linear`; bar.style.width = '100%'; }, 100);
+            setTimeout(() => { bar.style.transition = `width ${s.time}s linear`; bar.style.width = '100%'; }, 50);
 
             setTimeout(() => { 
                 current = (current + 1) % slides.length; 
