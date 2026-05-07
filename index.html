@@ -3,45 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hormuud Multimedia Signage - Enhanced Version</title>
+    <title>Hormuud Multimedia Signage - Professional Version</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #010409; color: white; overflow: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #010409; 
+            color: white; 
+            overflow: hidden; 
+            min-height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
         .slide { display: none; width: 100%; flex-grow: 1; animation: slideIn 0.8s ease-out; }
         .slide.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
         .progress-container { height: 6px; background: rgba(255, 255, 255, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
-        #progress-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); width: 0%; box-shadow: 0 0 15px #2563eb; }
+        #progress-fill { height: 100%; background: linear-gradient(90deg, #1a9e4a, #2ecc71); width: 0%; box-shadow: 0 0 15px #1a9e4a; }
+        
         .grid-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 25px; text-align: center; }
+        
         #start-overlay { position: fixed; inset: 0; background: #010409; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .video-box { width: 90%; max-width: 1100px; border-radius: 40px; overflow: hidden; border: 10px solid #111; background: black; }
+        
+        /* Video Styling to fill screen elegantly */
+        .video-box { 
+            width: 100%; 
+            height: 100%; 
+            max-width: 1400px; 
+            max-height: 80vh;
+            border-radius: 40px; 
+            overflow: hidden; 
+            border: 8px solid #111; 
+            background: black; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
         
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
+            border-radius: 24px;
+        }
+
+        .hormuud-text {
+            color: #1a9e4a;
+        }
+        
+        .hormuud-bg {
+            background-color: #1a9e4a;
         }
     </style>
 </head>
 <body class="p-4 md:p-6">
 
+    <!-- Start Overlay -->
     <div id="start-overlay">
-        <div class="w-20 h-20 bg-blue-600 rounded-3xl mb-8 flex items-center justify-center animate-bounce shadow-2xl">
-            <span class="text-white font-black text-5xl italic">H</span>
+        <div class="mb-8 animate-pulse">
+            <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Hormuud" class="h-24">
         </div>
-        <button id="start-btn" class="px-12 py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-black text-2xl transition-all shadow-2xl uppercase tracking-tighter">Bilow Bandhigga</button>
-        <p class="mt-6 text-slate-500 text-sm uppercase tracking-widest italic">Hormuud Multimedia</p>
+        <button id="start-btn" class="px-12 py-6 hormuud-bg hover:opacity-90 text-white rounded-full font-black text-2xl transition-all shadow-2xl uppercase tracking-wider">Bilow Bandhigga</button>
+        <p class="mt-6 text-slate-500 text-sm uppercase tracking-widest italic">Hormuud Telecom Multimedia</p>
     </div>
 
+    <!-- Header with Professional Info Bar -->
     <header class="flex justify-between items-center mb-6">
-        <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-2xl font-black italic">H</div>
-            <h1 class="text-2xl font-black uppercase italic tracking-tighter">Hormuud</h1>
+        <div class="flex items-center gap-6">
+            <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Hormuud Logo" class="h-16">
         </div>
-        <div class="bg-white/5 px-6 py-3 rounded-2xl border border-white/10">
-            <div id="clock" class="text-blue-500 font-black text-3xl italic tabular-nums">00:00</div>
+        
+        <!-- Info Bar: Date, Day, Weather -->
+        <div class="flex items-center gap-4">
+            <div class="glass-panel px-6 py-2 flex flex-col items-end">
+                <span id="top-day" class="text-[10px] font-black uppercase text-emerald-500 tracking-widest">Maalinta</span>
+                <span id="top-date" class="text-sm font-bold">--/--/----</span>
+            </div>
+            <div class="glass-panel px-6 py-2 flex items-center gap-3">
+                <span id="top-weather-icon" class="text-xl">☀️</span>
+                <span class="text-sm font-bold">32°C <span class="text-[10px] block opacity-50 uppercase">Muqdisho</span></span>
+            </div>
+            <div class="glass-panel px-8 py-2 border-l-4 border-emerald-500">
+                <div id="clock" class="text-white font-black text-3xl italic tabular-nums">00:00</div>
+            </div>
         </div>
     </header>
 
@@ -49,62 +93,46 @@
         <!-- Slide 0: Welcome -->
         <div id="slide-0" class="slide active text-center space-y-8">
             <div class="relative inline-block">
-                <div class="absolute -inset-10 bg-blue-600/20 blur-[80px] rounded-full"></div>
+                <div class="absolute -inset-10 bg-emerald-600/10 blur-[80px] rounded-full"></div>
                 <h2 class="text-5xl md:text-8xl font-black uppercase italic leading-none text-white drop-shadow-2xl relative">
                     KUSOO DHAWAADA <br>
-                    <span class="text-blue-600">HORMUUD TELECOM</span>
+                    <span class="hormuud-text">HORMUUD TELECOM</span>
                 </h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl mx-auto px-4">
-                <div class="glass-panel p-6 flex items-center justify-center gap-4">
-                    <div class="text-4xl">📅</div>
-                    <div class="text-left">
-                        <p id="slide-day" class="text-blue-400 font-black uppercase text-sm tracking-widest">Maalinta</p>
-                        <p id="slide-date" class="text-2xl font-bold text-white">-- --- ----</p>
-                    </div>
-                </div>
-                <div class="glass-panel p-6 flex items-center justify-center gap-4">
-                    <div id="slide-weather-icon" class="text-4xl animate-pulse">☀️</div>
-                    <div class="text-left">
-                        <p class="text-blue-400 font-black uppercase text-sm tracking-widest">Muqdisho</p>
-                        <p id="slide-temp" class="text-2xl font-bold text-white">32°C / Qorrax</p>
-                    </div>
-                </div>
-            </div>
+            <p class="text-2xl opacity-60 max-w-2xl mx-auto italic">Ku raaxayso adeegyo tayo leh oo daboolaya baahiyahaaga isgaarsiineed.</p>
         </div>
 
         <!-- Slide 1: Anfac Plus -->
         <div id="slide-1" class="slide space-y-6 w-full max-w-6xl">
-            <div class="text-center"><h3 class="text-7xl font-black text-blue-500 italic uppercase">ANFAC PLUS</h3><p class="text-2xl italic opacity-70">Internet Data, Ku hadal iyo SMS</p></div>
+            <div class="text-center"><h3 class="text-7xl font-black hormuud-text italic uppercase">ANFAC PLUS</h3><p class="text-2xl italic opacity-70">Internet Data, Ku hadal iyo SMS</p></div>
             <div class="grid grid-cols-4 gap-4 px-4">
-                <div class="grid-card"><p class="text-blue-500 font-black text-4xl">$0.25</p><p class="text-sm">400MB, 10 Min</p></div>
-                <div class="grid-card"><p class="text-blue-500 font-black text-4xl">$0.5</p><p class="text-sm">850MB, 30 Min</p></div>
-                <div class="grid-card border-blue-500 bg-blue-500/10"><p class="text-blue-500 font-black text-4xl">$1</p><p class="text-sm">2GB, 80 Min</p></div>
-                <div class="grid-card"><p class="text-blue-500 font-black text-4xl">$2</p><p class="text-sm">5GB, 160 Min</p></div>
-                <div class="grid-card"><p class="text-blue-500 font-black text-4xl">$5</p><p class="text-sm">12GB, 400 Min</p></div>
-                <div class="grid-card"><p class="text-blue-500 font-black text-4xl">$10</p><p class="text-sm">28GB, 800 Min</p></div>
-                <div class="grid-card"><p class="text-blue-500 font-black text-4xl">$20</p><p class="text-sm">60GB, 1600 Min</p></div>
-                <div class="grid-card"><p class="text-blue-500 font-black text-4xl">$50</p><p class="text-sm">140GB, 4000 Min</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$0.25</p><p class="text-sm">400MB, 10 Min</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$0.5</p><p class="text-sm">850MB, 30 Min</p></div>
+                <div class="grid-card border-emerald-500 bg-emerald-500/10"><p class="hormuud-text font-black text-4xl">$1</p><p class="text-sm">2GB, 80 Min</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$2</p><p class="text-sm">5GB, 160 Min</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$5</p><p class="text-sm">12GB, 400 Min</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$10</p><p class="text-sm">28GB, 800 Min</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$20</p><p class="text-sm">60GB, 1600 Min</p></div>
+                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$50</p><p class="text-sm">140GB, 4000 Min</p></div>
             </div>
-            <p class="text-center font-black text-4xl italic text-blue-400 animate-pulse uppercase">Garaac *222*2#</p>
+            <p class="text-center font-black text-4xl italic text-emerald-400 animate-pulse uppercase">Garaac *222*2#</p>
         </div>
 
-        <!-- Slide 2: Kudhan (Font Reduced) -->
+        <!-- Slide 2: Kudhan -->
         <div id="slide-2" class="slide space-y-6 w-full max-w-5xl">
-            <div class="text-center"><h3 class="text-6xl md:text-7xl font-black text-green-500 italic uppercase">KUDHAN</h3><p class="text-2xl italic opacity-70">Internet, Ku-hadal, iyo IPTV (Nasiye)</p></div>
+            <div class="text-center"><h3 class="text-6xl md:text-7xl font-black text-emerald-500 italic uppercase">KUDHAN</h3><p class="text-2xl italic opacity-70">Internet, Ku-hadal, iyo IPTV (Nasiye)</p></div>
             <div class="flex gap-4 w-full px-6">
-                <div class="flex-1 grid-card py-8"><p class="text-green-500 font-black text-5xl">$0.8</p><p class="text-xl uppercase mt-2">Maalinle</p></div>
-                <div class="flex-1 grid-card border-green-500 bg-green-500/10 py-12 scale-105"><p class="text-green-500 font-black text-7xl">$20</p><p class="text-2xl uppercase mt-2 font-black">Bile</p></div>
-                <div class="flex-1 grid-card py-8"><p class="text-green-500 font-black text-5xl">$5.5</p><p class="text-xl uppercase mt-2">Usbuucle</p></div>
+                <div class="flex-1 grid-card py-8"><p class="text-emerald-500 font-black text-5xl">$0.8</p><p class="text-xl uppercase mt-2">Maalinle</p></div>
+                <div class="flex-1 grid-card border-emerald-500 bg-emerald-500/10 py-12 scale-105"><p class="text-emerald-500 font-black text-7xl">$20</p><p class="text-2xl uppercase mt-2 font-black">Bile</p></div>
+                <div class="flex-1 grid-card py-8"><p class="text-emerald-500 font-black text-5xl">$5.5</p><p class="text-xl uppercase mt-2">Usbuucle</p></div>
             </div>
-            <p class="text-center font-black text-4xl italic text-green-400 uppercase">Garaac *222*4#</p>
+            <p class="text-center font-black text-4xl italic text-emerald-400 uppercase">Garaac *222*4#</p>
         </div>
 
         <!-- Slide 3: Ku-Hadal -->
         <div id="slide-3" class="slide space-y-8 w-full max-w-5xl text-center">
             <h3 class="text-7xl font-black text-yellow-500 italic uppercase">KU-HADAL AAN XADIDNAYN</h3>
-            <p class="text-3xl italic max-w-3xl mx-auto">Xirmooyin ku-hadal ah oo aan kaa dhacayn, kaana dhammaaneyn.</p>
             <div class="flex gap-4 justify-center">
                 <div class="grid-card w-48"><p class="text-yellow-500 font-black text-4xl">$0.5</p><p>Maalinle</p></div>
                 <div class="grid-card w-48 border-yellow-500 bg-yellow-500/5"><p class="text-yellow-500 font-black text-5xl">$3</p><p>Usbuucle</p></div>
@@ -115,32 +143,31 @@
 
         <!-- Slide 4: Waafi App -->
         <div id="slide-4" class="slide text-center space-y-10 px-10">
-            <h3 class="text-9xl font-black text-white italic uppercase tracking-tighter">WAAFI <span class="text-blue-500">APP</span></h3>
-            <p class="text-5xl italic font-light leading-tight">Maamul EVC Plus, Taaj, iyo Akoonkaaga Bangiga hal meel ah.</p>
-            <div class="bg-blue-600 px-12 py-6 rounded-full text-4xl font-black italic">DOWNLOAD WAAFI</div>
+            <h3 class="text-9xl font-black text-white italic uppercase tracking-tighter">WAAFI <span class="hormuud-text">APP</span></h3>
+            <p class="text-4xl italic font-light leading-tight">Maamul EVC Plus, Taaj, iyo Akoonkaaga Bangiga hal meel ah.</p>
+            <div class="hormuud-bg px-12 py-6 rounded-full text-4xl font-black italic inline-block">DOWNLOAD WAAFI</div>
         </div>
 
         <!-- Slide 5: Nasiye -->
         <div id="slide-5" class="slide text-center space-y-10">
-            <h3 class="text-8xl font-black text-white italic uppercase">NASIYE <span class="text-blue-500">TV</span></h3>
+            <h3 class="text-8xl font-black text-white italic uppercase">NASIYE <span class="hormuud-text">TV</span></h3>
             <div class="bg-white/5 p-12 rounded-[50px] border border-white/10 space-y-6">
-                <h4 class="text-4xl font-bold text-blue-400 uppercase">Champions League Caawa</h4>
-                <div class="text-6xl font-black italic">Real Madrid <span class="text-blue-600">Vs</span> Bayern</div>
-                <div class="text-6xl font-black italic">Sporting CP <span class="text-blue-600">Vs</span> Arsenal</div>
+                <h4 class="text-4xl font-bold text-emerald-400 uppercase">Champions League Caawa</h4>
+                <div class="text-6xl font-black italic">Real Madrid <span class="hormuud-text">Vs</span> Bayern</div>
                 <p class="text-3xl text-slate-400">22:00 PM Habeenimo</p>
             </div>
         </div>
 
-        <!-- Slide 6: Maamuus (Font Reduced) -->
+        <!-- Slide 6: Maamuus -->
         <div id="slide-6" class="slide text-center space-y-6">
-            <div class="bg-blue-600 px-8 py-3 rounded-2xl text-2xl font-black italic inline-block">SPECIAL OFFER</div>
+            <div class="hormuud-bg px-8 py-3 rounded-2xl text-2xl font-black italic inline-block">SPECIAL OFFER</div>
             <h3 class="text-7xl md:text-8xl font-black text-white italic leading-none">MAAMUUS</h3>
-            <p class="text-4xl md:text-5xl font-bold italic text-blue-400 uppercase tracking-tighter">UNLIMITED DATA + VOICE</p>
+            <p class="text-4xl md:text-5xl font-bold italic text-emerald-400 uppercase tracking-tighter">UNLIMITED DATA + VOICE</p>
             <p class="text-7xl font-black">$11 <span class="text-2xl opacity-50">/ 14 Days</span></p>
             <p class="text-3xl italic font-black uppercase text-white">Garaac *744*Number*11#</p>
         </div>
 
-        <!-- Slide 7: Video -->
+        <!-- Slide 7: Video (Full Screen Box) -->
         <div id="slide-7" class="slide">
             <div class="video-box">
                 <video id="promo-video" class="w-full h-full object-cover" muted playsinline>
@@ -173,10 +200,12 @@
             const days = ['Axad', 'Isniin', 'Talaado', 'Arbaco', 'Khamiis', 'Jimco', 'Sabti'];
             const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             
-            if(document.getElementById('slide-day')) {
-                document.getElementById('slide-day').textContent = days[now.getDay()];
-                document.getElementById('slide-date').textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-            }
+            const dayName = days[now.getDay()];
+            const formattedDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+            
+            // Update Top Bar
+            document.getElementById('top-day').textContent = dayName;
+            document.getElementById('top-date').textContent = formattedDate;
         }
 
         function pcmToWav(pcmData, sampleRate) {
@@ -216,7 +245,12 @@
             document.getElementById(s.id).classList.add('active');
 
             const vid = document.getElementById('promo-video');
-            if (current === 7) { vid.currentTime = 0; vid.play(); } else { vid.pause(); }
+            if (current === 7) { 
+                vid.currentTime = 0; 
+                vid.play().catch(e => console.log("Video play failed:", e)); 
+            } else { 
+                vid.pause(); 
+            }
 
             speak(s.script);
             updateDateTime();
