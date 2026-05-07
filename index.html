@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hormuud Multimedia Signage - Full Version</title>
+    <title>Hormuud Multimedia Signage - Enhanced Version</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -11,37 +11,67 @@
         .slide { display: none; width: 100%; flex-grow: 1; animation: slideIn 0.8s ease-out; }
         .slide.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
         @keyframes slideIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .progress-container { height: 10px; background: rgba(255, 255, 255, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
+        .progress-container { height: 6px; background: rgba(255, 255, 255, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
         #progress-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); width: 0%; box-shadow: 0 0 15px #2563eb; }
         .grid-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 25px; text-align: center; }
         #start-overlay { position: fixed; inset: 0; background: #010409; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .video-box { width: 90%; max-width: 1100px; border-radius: 40px; overflow: hidden; border: 10px solid #111; background: black; }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+        }
     </style>
 </head>
-<body class="p-6">
+<body class="p-4 md:p-6">
 
     <div id="start-overlay">
-        <div class="w-24 h-24 bg-blue-600 rounded-3xl mb-8 flex items-center justify-center animate-bounce shadow-2xl">
-            <span class="text-white font-black text-6xl italic">H</span>
+        <div class="w-20 h-20 bg-blue-600 rounded-3xl mb-8 flex items-center justify-center animate-bounce shadow-2xl">
+            <span class="text-white font-black text-5xl italic">H</span>
         </div>
-        <button id="start-btn" class="px-16 py-8 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-black text-4xl transition-all shadow-2xl">BILOW BANDHIGGA</button>
-        <p class="mt-6 text-slate-500 text-xl uppercase tracking-widest italic">Hormuud Multimedia</p>
+        <button id="start-btn" class="px-12 py-6 bg-blue-600 hover:bg-blue-700 text-white rounded-full font-black text-2xl transition-all shadow-2xl uppercase tracking-tighter">Bilow Bandhigga</button>
+        <p class="mt-6 text-slate-500 text-sm uppercase tracking-widest italic">Hormuud Multimedia</p>
     </div>
 
     <header class="flex justify-between items-center mb-6">
-        <div class="flex items-center gap-6">
-            <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-4xl font-black italic">H</div>
-            <h1 class="text-4xl font-black uppercase italic tracking-tighter">Hormuud</h1>
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center text-2xl font-black italic">H</div>
+            <h1 class="text-2xl font-black uppercase italic tracking-tighter">Hormuud</h1>
         </div>
-        <div class="bg-white/5 px-10 py-4 rounded-3xl border border-white/10">
-            <div id="clock" class="text-blue-500 font-black text-6xl italic tabular-nums">00:00</div>
+        <div class="bg-white/5 px-6 py-3 rounded-2xl border border-white/10">
+            <div id="clock" class="text-blue-500 font-black text-3xl italic tabular-nums">00:00</div>
         </div>
     </header>
 
     <main class="flex-1 flex items-center justify-center overflow-hidden">
         <!-- Slide 0: Welcome -->
-        <div id="slide-0" class="slide active text-center">
-            <h2 class="text-[10rem] font-black uppercase italic leading-none text-white drop-shadow-2xl">WAAYAHA <br><span class="text-blue-600">NOLOSHA</span></h2>
+        <div id="slide-0" class="slide active text-center space-y-8">
+            <div class="relative inline-block">
+                <div class="absolute -inset-10 bg-blue-600/20 blur-[80px] rounded-full"></div>
+                <h2 class="text-5xl md:text-8xl font-black uppercase italic leading-none text-white drop-shadow-2xl relative">
+                    KUSOO DHAWAADA <br>
+                    <span class="text-blue-600">HORMUUD TELECOM</span>
+                </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-3xl mx-auto px-4">
+                <div class="glass-panel p-6 flex items-center justify-center gap-4">
+                    <div class="text-4xl">📅</div>
+                    <div class="text-left">
+                        <p id="slide-day" class="text-blue-400 font-black uppercase text-sm tracking-widest">Maalinta</p>
+                        <p id="slide-date" class="text-2xl font-bold text-white">-- --- ----</p>
+                    </div>
+                </div>
+                <div class="glass-panel p-6 flex items-center justify-center gap-4">
+                    <div id="slide-weather-icon" class="text-4xl animate-pulse">☀️</div>
+                    <div class="text-left">
+                        <p class="text-blue-400 font-black uppercase text-sm tracking-widest">Muqdisho</p>
+                        <p id="slide-temp" class="text-2xl font-bold text-white">32°C / Qorrax</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Slide 1: Anfac Plus -->
@@ -60,15 +90,15 @@
             <p class="text-center font-black text-4xl italic text-blue-400 animate-pulse uppercase">Garaac *222*2#</p>
         </div>
 
-        <!-- Slide 2: Kudhan -->
-        <div id="slide-2" class="slide space-y-8 w-full max-w-5xl">
-            <div class="text-center"><h3 class="text-8xl font-black text-green-500 italic uppercase">KUDHAN</h3><p class="text-3xl italic opacity-70">Internet, Ku-hadal, iyo IPTV (Nasiye)</p></div>
-            <div class="flex gap-6 w-full px-6">
-                <div class="flex-1 grid-card py-12"><p class="text-green-500 font-black text-6xl">$0.8</p><p class="text-2xl uppercase mt-4">Maalinle</p></div>
-                <div class="flex-1 grid-card border-green-500 bg-green-500/10 py-16 scale-105"><p class="text-green-500 font-black text-8xl">$20</p><p class="text-3xl uppercase mt-4 font-black">Bile</p></div>
-                <div class="flex-1 grid-card py-12"><p class="text-green-500 font-black text-6xl">$5.5</p><p class="text-2xl uppercase mt-4">Usbuucle</p></div>
+        <!-- Slide 2: Kudhan (Font Reduced) -->
+        <div id="slide-2" class="slide space-y-6 w-full max-w-5xl">
+            <div class="text-center"><h3 class="text-6xl md:text-7xl font-black text-green-500 italic uppercase">KUDHAN</h3><p class="text-2xl italic opacity-70">Internet, Ku-hadal, iyo IPTV (Nasiye)</p></div>
+            <div class="flex gap-4 w-full px-6">
+                <div class="flex-1 grid-card py-8"><p class="text-green-500 font-black text-5xl">$0.8</p><p class="text-xl uppercase mt-2">Maalinle</p></div>
+                <div class="flex-1 grid-card border-green-500 bg-green-500/10 py-12 scale-105"><p class="text-green-500 font-black text-7xl">$20</p><p class="text-2xl uppercase mt-2 font-black">Bile</p></div>
+                <div class="flex-1 grid-card py-8"><p class="text-green-500 font-black text-5xl">$5.5</p><p class="text-xl uppercase mt-2">Usbuucle</p></div>
             </div>
-            <p class="text-center font-black text-5xl italic text-green-400 uppercase">Garaac *222*4#</p>
+            <p class="text-center font-black text-4xl italic text-green-400 uppercase">Garaac *222*4#</p>
         </div>
 
         <!-- Slide 3: Ku-Hadal -->
@@ -90,7 +120,7 @@
             <div class="bg-blue-600 px-12 py-6 rounded-full text-4xl font-black italic">DOWNLOAD WAAFI</div>
         </div>
 
-        <!-- Slide 5: Nasiye (Champions League) -->
+        <!-- Slide 5: Nasiye -->
         <div id="slide-5" class="slide text-center space-y-10">
             <h3 class="text-8xl font-black text-white italic uppercase">NASIYE <span class="text-blue-500">TV</span></h3>
             <div class="bg-white/5 p-12 rounded-[50px] border border-white/10 space-y-6">
@@ -101,16 +131,16 @@
             </div>
         </div>
 
-        <!-- Slide 6: Maamuus & Special Offer -->
-        <div id="slide-6" class="slide text-center space-y-10">
-            <div class="bg-blue-600 px-10 py-4 rounded-2xl text-3xl font-black italic">SPECIAL OFFER</div>
-            <h3 class="text-[8rem] font-black text-white italic leading-none">MAAMUUS</h3>
-            <p class="text-6xl font-bold italic text-blue-400">UNLIMITED DATA + VOICE</p>
-            <p class="text-8xl font-black">$11 <span class="text-3xl opacity-50">/ 14 Days</span></p>
-            <p class="text-4xl italic font-black uppercase text-white">Garaac *744*Number*11#</p>
+        <!-- Slide 6: Maamuus (Font Reduced) -->
+        <div id="slide-6" class="slide text-center space-y-6">
+            <div class="bg-blue-600 px-8 py-3 rounded-2xl text-2xl font-black italic inline-block">SPECIAL OFFER</div>
+            <h3 class="text-7xl md:text-8xl font-black text-white italic leading-none">MAAMUUS</h3>
+            <p class="text-4xl md:text-5xl font-bold italic text-blue-400 uppercase tracking-tighter">UNLIMITED DATA + VOICE</p>
+            <p class="text-7xl font-black">$11 <span class="text-2xl opacity-50">/ 14 Days</span></p>
+            <p class="text-3xl italic font-black uppercase text-white">Garaac *744*Number*11#</p>
         </div>
 
-        <!-- Slide 7: Video (59s) -->
+        <!-- Slide 7: Video -->
         <div id="slide-7" class="slide">
             <div class="video-box">
                 <video id="promo-video" class="w-full h-full object-cover" muted playsinline>
@@ -126,15 +156,28 @@
         const apiKey = ""; 
         let current = 0;
         const slides = [
-            { id: 'slide-0', time: 12, script: "Ku soo dhawaada Hormuud Telekom, wehelkaaga dhabta ah ee nolosha." },
-            { id: 'slide-1', time: 12, script: "Xirmooyinka Anfac Plus, iibso xirmo isugu jirta Internet, ku hadal iyo farriin qoraal. Xirmooyinkuna waxay ka bilaabmaan Eber dhibic labo iyo shan ilaa konton doolar. Garaac xiddig labo labo labo xiddig labo#." },
-            { id: 'slide-2', time: 12, script: "Adeegga cusub ee Kudhan. Hel Internet, ku-hadal, iyo IPTV hal meel ah. Maalinle waa Eber dhibic sideed, halka bishuna tahay labaatan doolar. Garaac xiddig labo labo labo xiddig afar#." },
-            { id: 'slide-3', time: 12, script: "Ku-hadal aan xadidnayn oo aan kaa dhacayn. Ka hel Maalinle, Usbuucle iyo Bile. Garaac xiddig labo labo labo xiddig saddex#." },
-            { id: 'slide-4', time: 12, script: "Ma ogtahay in Waafi App aad ka heli karto dhammaan adeegyadaada maaliyadeed sida EVC Plus iyo akoonkaaga bangiga? Kala soo deg Waafi App hadda." },
-            { id: 'slide-5', time: 12, script: "Ka daawo Nasiye kulamada xiisaha badan ee Champions League. Real Madrid iyo Bayern, iyo Sporting iyo Arsenal. Caawa tobanka habeenimo." },
-            { id: 'slide-6', time: 12, script: "Dalab gaar ah oo adiga kugu socda. Hel Internet iyo ku hadal aan xadidnayn muddo labo toddobaad ah oo kaliya kow iyo toban doolar. Garaac xiddig todoba afar afar." },
+            { id: 'slide-0', time: 10, script: "Kusoo dhawaada Hormuud Telecom, wehelkaaga dhabta ah ee nolosha." },
+            { id: 'slide-1', time: 12, script: "Xirmooyinka Anfac Plus, iibso xirmo isugu jirta Internet, ku hadal iyo farriin qoraal. Garaac xiddig labo labo labo xiddig labo#." },
+            { id: 'slide-2', time: 12, script: "Adeegga cusub ee Kudhan. Hel Internet, ku-hadal, iyo IPTV hal meel ah. Garaac xiddig labo labo labo xiddig afar#." },
+            { id: 'slide-3', time: 12, script: "Ku-hadal aan xadidnayn oo aan kaa dhacayn. Garaac xiddig labo labo labo xiddig saddex#." },
+            { id: 'slide-4', time: 12, script: "Ma ogtahay in Waafi App aad ka heli karto dhammaan adeegyadaada maaliyadeed? Kala soo deg Waafi App hadda." },
+            { id: 'slide-5', time: 12, script: "Ka daawo Nasiye kulamada xiisaha badan ee Champions League caawa tobanka habeenimo." },
+            { id: 'slide-6', time: 12, script: "Dalab gaar ah! Hel Internet iyo ku hadal aan xadidnayn muddo labo toddobaad ah oo kaliya kow iyo toban doolar." },
             { id: 'slide-7', time: 59, script: "Hadda daawo fiidiyowga bandhigga rasmiga ah ee Hormuud Telekom." }
         ];
+
+        function updateDateTime() {
+            const now = new Date();
+            document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+            
+            const days = ['Axad', 'Isniin', 'Talaado', 'Arbaco', 'Khamiis', 'Jimco', 'Sabti'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            if(document.getElementById('slide-day')) {
+                document.getElementById('slide-day').textContent = days[now.getDay()];
+                document.getElementById('slide-date').textContent = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+            }
+        }
 
         function pcmToWav(pcmData, sampleRate) {
             const buffer = new ArrayBuffer(44 + pcmData.length * 2);
@@ -154,7 +197,7 @@
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u culus (Deep Voice): ${text}` }] }],
+                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u culus: ${text}` }] }],
                         generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Enceladus" } } } }
                     })
                 });
@@ -176,6 +219,7 @@
             if (current === 7) { vid.currentTime = 0; vid.play(); } else { vid.pause(); }
 
             speak(s.script);
+            updateDateTime();
 
             const bar = document.getElementById('progress-fill');
             bar.style.transition = 'none'; bar.style.width = '0%';
@@ -186,7 +230,8 @@
 
         document.getElementById('start-btn').onclick = () => {
             document.getElementById('start-overlay').style.display = 'none';
-            setInterval(() => { document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'}); }, 1000);
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
             run();
         };
     </script>
