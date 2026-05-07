@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hormuud Mobile Signage - Ultimate Edition</title>
+    <title>Hormuud Mobile - Qurxoon</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -14,116 +14,121 @@
         .slide.active { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; animation: slideReveal 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards; }
         
         @keyframes slideReveal { 
-            from { opacity: 0; transform: translateY(30px) scale(0.95); } 
-            to { opacity: 1; transform: translateY(0) scale(1); } 
+            from { opacity: 0; transform: scale(1.1); } 
+            to { opacity: 1; transform: scale(1); } 
         }
 
-        .header-glass { background: rgba(1, 4, 9, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 50; width: 100%; }
-        .card-glass { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 12px; width: 100%; }
+        .header-glass { background: rgba(1, 4, 9, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 50; width: 100%; }
+        .card-glass { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 12px; width: 100%; }
         
-        .progress-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 4px; background: rgba(255,255,255,0.05); z-index: 100; }
-        #progress-fill { height: 100%; width: 0%; background: var(--h-blue); box-shadow: 0 0 10px var(--h-blue); }
+        .progress-container { position: fixed; bottom: 0; left: 0; width: 100%; height: 6px; background: rgba(255,255,255,0.05); z-index: 100; }
+        #progress-fill { height: 100%; width: 0%; background: var(--h-blue); box-shadow: 0 0 15px var(--h-blue); }
 
-        /* Slide 0 Decor */
-        .glow-circle { position: absolute; width: 250px; height: 250px; background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%); animation: pulse 3s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 0.8; } 100% { transform: scale(1); opacity: 0.5; } }
+        /* Slide 0 Design */
+        .hero-glow { position: absolute; width: 300px; height: 300px; background: radial-gradient(circle, rgba(37,99,235,0.2) 0%, transparent 70%); animation: pulse 4s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.3); opacity: 0.7; } 100% { transform: scale(1); opacity: 0.4; } }
 
-        .img-box { width: 100%; height: 220px; border-radius: 18px; overflow: hidden; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); }
-        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .img-box { width: 100%; height: 260px; border-radius: 20px; overflow: hidden; margin-bottom: 20px; border: 2px solid rgba(37,99,235,0.3); }
+        .img-box img { width: 100%; height: 100%; object-fit: contain; background: #000; }
 
-        #start-overlay { position: fixed; inset: 0; background: var(--h-dark); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-        .btn-start { background: var(--h-blue); padding: 16px 45px; border-radius: 50px; font-weight: 800; font-size: 18px; color: white; box-shadow: 0 10px 25px rgba(37,99,235,0.3); transition: 0.3s; }
+        #start-overlay { position: fixed; inset: 0; background: var(--h-dark); z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .btn-start { background: var(--h-blue); padding: 18px 50px; border-radius: 50px; font-weight: 800; font-size: 20px; color: white; box-shadow: 0 10px 30px rgba(37,99,235,0.4); }
     </style>
 </head>
 <body>
 
     <!-- Start Overlay -->
     <div id="start-overlay">
-        <div class="w-20 h-20 bg-blue-600 rounded-[25px] flex items-center justify-center mb-8 shadow-2xl animate-bounce">
-            <span class="text-white font-black text-4xl italic">H</span>
+        <div class="w-24 h-24 bg-blue-600 rounded-[30px] flex items-center justify-center mb-10 shadow-2xl">
+            <span class="text-white font-black text-5xl italic">H</span>
         </div>
-        <button id="start-btn" class="btn-start active:scale-95 uppercase tracking-widest">Bilow Bandhigga</button>
-        <p class="mt-6 text-slate-500 font-bold text-[10px] tracking-[0.5em] uppercase italic">Hormuud Telecom</p>
+        <button id="start-btn" class="btn-start active:scale-95 uppercase tracking-tighter">Riix si aad u bilowdo</button>
     </div>
 
     <!-- Header -->
-    <header class="header-glass p-4 flex justify-between items-center">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span class="text-white font-black text-lg italic">H</span>
+    <header class="header-glass p-5 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
+                <span class="text-white font-black text-xl italic">H</span>
             </div>
-            <span class="font-extrabold italic tracking-tight text-lg uppercase">Hormuud</span>
+            <span class="font-extrabold italic text-xl uppercase tracking-widest text-blue-500">Hormuud</span>
         </div>
-        <div id="clock" class="text-blue-500 font-bold text-lg tabular-nums">00:00</div>
+        <div id="clock" class="bg-blue-600/10 px-4 py-1 rounded-full text-blue-500 font-bold text-lg">00:00</div>
     </header>
 
-    <main class="relative h-[calc(100vh-70px)] overflow-hidden">
+    <main class="relative h-[calc(100vh-80px)]">
         
-        <!-- Slide 0: Hero Welcome -->
+        <!-- Slide 0: Hero -->
         <div id="slide-0" class="slide active">
-            <div class="glow-circle"></div>
-            <h2 class="text-5xl font-black italic uppercase leading-none text-center relative z-10">WAAYAHA<br><span class="text-blue-600">NOLOSHA</span></h2>
-            <div class="h-1 w-16 bg-blue-600 mt-6 rounded-full relative z-10"></div>
-            <p class="mt-8 text-slate-400 font-bold tracking-[0.3em] uppercase text-[10px] italic relative z-10">Digital Future With You</p>
+            <div class="hero-glow"></div>
+            <h1 class="text-6xl font-black italic uppercase leading-[0.9] text-center relative">WAAYAHA<br><span class="text-blue-600">NOLOSHA</span></h1>
+            <p class="mt-10 text-slate-400 font-bold tracking-[0.4em] uppercase text-xs italic">Isgaarsiinta Casriga ah</p>
         </div>
 
-        <!-- Slide 1: Anfac Plus -->
+        <!-- Slide 1: Anfac (Original Info) -->
         <div id="slide-1" class="slide">
             <div class="img-box"><img src="https://github.com/user-attachments/assets/2cd7c915-fe43-40c5-a564-6f6241c2b34b" alt="Anfac"></div>
-            <h3 class="text-2xl font-black text-blue-500 italic mb-4">ANFAC PLUS</h3>
-            <div class="grid grid-cols-2 gap-2 w-full">
-                <div class="card-glass"><p class="text-blue-500 font-black">$1</p><p class="text-[10px] opacity-60">2GB + 80m</p></div>
-                <div class="card-glass"><p class="text-blue-500 font-black">$5</p><p class="text-[10px] opacity-60">12GB + 400m</p></div>
+            <h3 class="text-3xl font-black text-blue-500 italic mb-4 uppercase">Anfac Plus</h3>
+            <div class="grid grid-cols-2 gap-3 w-full px-4">
+                <div class="card-glass text-center"><p class="text-blue-500 font-black text-xl">$1</p><p class="text-xs opacity-70">2GB + 80m</p></div>
+                <div class="card-glass text-center"><p class="text-blue-500 font-black text-xl">$5</p><p class="text-xs opacity-70">12GB + 400m</p></div>
+                <div class="card-glass text-center"><p class="text-blue-500 font-black text-xl">$10</p><p class="text-xs opacity-70">28GB + 800m</p></div>
+                <div class="card-glass text-center"><p class="text-blue-500 font-black text-xl">$20</p><p class="text-xs opacity-70">65GB + 1600m</p></div>
             </div>
-            <p class="mt-6 font-black text-xl italic text-blue-400 animate-pulse tracking-widest">*222*2#</p>
+            <p class="mt-6 font-black text-2xl italic text-blue-400">*222*2#</p>
         </div>
 
-        <!-- Slide 2: Kudhan -->
+        <!-- Slide 2: Kudhan (Original Info) -->
         <div id="slide-2" class="slide">
             <div class="img-box"><img src="https://github.com/user-attachments/assets/fd2b9f57-fb1d-4fe8-b8af-3bcbf15cce67" alt="Kudhan"></div>
-            <h3 class="text-2xl font-black text-green-500 italic mb-4 uppercase">Kudhan</h3>
-            <div class="card-glass bg-green-500/5 border-green-500/20"><p class="font-bold text-sm">Monthly Service</p><p class="text-green-500 font-black text-xl">$20</p></div>
-            <p class="mt-6 font-black text-xl italic text-green-400 tracking-widest">*222*4#</p>
+            <h3 class="text-3xl font-black text-green-500 italic mb-4 uppercase">Adeegga Kudhan</h3>
+            <div class="card-glass mx-4 py-6 border-green-500/30">
+                <p class="text-sm opacity-70 mb-2">Internet & I-P-T-V (Monthly)</p>
+                <p class="text-green-500 font-black text-4xl">$20</p>
+            </div>
+            <p class="mt-8 font-black text-2xl italic text-green-400">*222*4#</p>
         </div>
 
-        <!-- Slide 3: Ku-Hadal -->
+        <!-- Slide 3: Ku-Hadal (Original Info) -->
         <div id="slide-3" class="slide">
-            <div class="img-box"><img src="https://github.com/user-attachments/assets/97b5dd03-480f-4153-996b-f69a8b57e5bf" alt="Ku-hadal"></div>
-            <h3 class="text-2xl font-black text-yellow-500 italic mb-4 uppercase">Ku-Hadal</h3>
-            <div class="flex gap-2 w-full"><div class="card-glass flex-1">$3</div><div class="card-glass flex-1">$12</div></div>
-            <p class="mt-6 font-black text-xl italic text-yellow-400 tracking-widest">*222*3#</p>
+            <div class="img-box"><img src="https://github.com/user-attachments/assets/97b5dd03-480f-4153-996b-f69a8b57e5bf" alt="Ku-Hadal"></div>
+            <h3 class="text-3xl font-black text-yellow-500 italic mb-4 uppercase">Ku-Hadal</h3>
+            <div class="flex gap-3 w-full px-4">
+                <div class="card-glass flex-1"><p class="font-bold text-yellow-500">$3</p><p class="text-[10px]">Weekly</p></div>
+                <div class="card-glass flex-1"><p class="font-bold text-yellow-500">$12</p><p class="text-[10px]">Monthly</p></div>
+            </div>
+            <p class="mt-8 font-black text-2xl italic text-yellow-400">*222*3#</p>
         </div>
 
-        <!-- Slide 4: Waafi App -->
+        <!-- Slide 4: Waafi -->
         <div id="slide-4" class="slide">
             <div class="img-box"><img src="https://github.com/user-attachments/assets/dff6f0be-f4a6-4b47-aca9-126e92846134" alt="Waafi"></div>
-            <h3 class="text-2xl font-black italic mb-2">WAAFI APP</h3>
-            <p class="text-[11px] opacity-70 mb-4 px-4 text-center">Maamul lacagahaaga hal meel ah.</p>
-            <div class="bg-blue-600 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">Download App</div>
+            <h3 class="text-3xl font-black italic mb-4">WAAFI APP</h3>
+            <div class="bg-blue-600 px-10 py-3 rounded-full font-bold uppercase tracking-widest text-sm">Download App</div>
         </div>
 
-        <!-- Slide 5-15: Gallery & Services -->
-        <div id="slide-5" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/050966dc-003d-4812-ba27-d0d030d289be" alt=""></div><p class="mt-4 font-bold italic">Ciyaaraha Caalamka</p></div>
-        <div id="slide-6" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/4df14ede-0dfe-47dd-9e7c-fbcccaddc664" alt=""></div><p class="mt-4 font-bold italic text-blue-500">Maamuus Offer</p></div>
-        <div id="slide-7" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/86e25e59-38b0-40c6-a029-25e905a4686b" alt=""></div></div>
-        <div id="slide-8" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/37448c98-456d-4ae5-a06f-4d4f0c96b9eb" alt=""></div></div>
-        <div id="slide-9" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/75508e90-3de1-4bc1-9113-1a7d79c0b16c" alt=""></div></div>
-        <div id="slide-10" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/e2366dd1-0a1d-4417-93ae-5a817c0c82c6" alt=""></div></div>
-        <div id="slide-11" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/14f219ce-f1d6-4a51-b03e-f21719136205" alt=""></div></div>
-        <div id="slide-12" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/1a8225d4-c21b-4d1b-baeb-f4c3204aca3f" alt=""></div></div>
-        <div id="slide-13" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/f178b9ad-c4c4-412c-a313-3d428ce0bed7" alt=""></div></div>
-        <div id="slide-14" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/d52be15f-52d3-46d4-9829-24bd411287ee" alt=""></div></div>
-        <div id="slide-15" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/b99d64a6-0541-4763-9452-4c6be8f5597c" alt=""></div></div>
-        <div id="slide-16" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/39853d47-251b-409b-9ff7-1afcfb0eb94e" alt=""></div></div>
-        <div id="slide-17" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/ad8f9a08-acf3-462c-9651-d77fbd3b09d9" alt=""></div></div>
-        <div id="slide-18" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/81508809-ec84-4d93-bdcb-95e1fb6bade7" alt=""></div></div>
-        <div id="slide-19" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/dea8e44a-e84e-4a17-9f02-c407bfddd31c" alt=""></div></div>
-        <div id="slide-20" class="slide"><div class="img-box h-[70%]"><img src="https://github.com/user-attachments/assets/f6b15c3e-3100-4031-9e01-f3c46bfb49f4" alt=""></div></div>
+        <!-- Slides 5 to 20: Gallery with your links -->
+        <div id="slide-5" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/050966dc-003d-4812-ba27-d0d030d289be" alt=""></div></div>
+        <div id="slide-6" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/4df14ede-0dfe-47dd-9e7c-fbcccaddc664" alt=""></div></div>
+        <div id="slide-7" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/86e25e59-38b0-40c6-a029-25e905a4686b" alt=""></div></div>
+        <div id="slide-8" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/37448c98-456d-4ae5-a06f-4d4f0c96b9eb" alt=""></div></div>
+        <div id="slide-9" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/75508e90-3de1-4bc1-9113-1a7d79c0b16c" alt=""></div></div>
+        <div id="slide-10" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/e2366dd1-0a1d-4417-93ae-5a817c0c82c6" alt=""></div></div>
+        <div id="slide-11" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/14f219ce-f1d6-4a51-b03e-f21719136205" alt=""></div></div>
+        <div id="slide-12" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/1a8225d4-c21b-4d1b-baeb-f4c3204aca3f" alt=""></div></div>
+        <div id="slide-13" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/f178b9ad-c4c4-412c-a313-3d428ce0bed7" alt=""></div></div>
+        <div id="slide-14" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/d52be15f-52d3-46d4-9829-24bd411287ee" alt=""></div></div>
+        <div id="slide-15" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/b99d64a6-0541-4763-9452-4c6be8f5597c" alt=""></div></div>
+        <div id="slide-16" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/39853d47-251b-409b-9ff7-1afcfb0eb94e" alt=""></div></div>
+        <div id="slide-17" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/ad8f9a08-acf3-462c-9651-d77fbd3b09d9" alt=""></div></div>
+        <div id="slide-18" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/81508809-ec84-4d93-bdcb-95e1fb6bade7" alt=""></div></div>
+        <div id="slide-19" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/dea8e44a-e84e-4a17-9f02-c407bfddd31c" alt=""></div></div>
+        <div id="slide-20" class="slide"><div class="img-box h-[80%]"><img src="https://github.com/user-attachments/assets/f6b15c3e-3100-4031-9e01-f3c46bfb49f4" alt=""></div></div>
 
-        <!-- Final Slide: Video -->
+        <!-- Video Slide -->
         <div id="slide-video" class="slide">
-            <div class="w-full h-full rounded-2xl overflow-hidden border-2 border-white/10 bg-black">
-                <video id="promo-video" class="w-full h-full object-cover" muted playsinline>
+            <div class="w-full h-full rounded-3xl overflow-hidden border-2 border-white/10 bg-black">
+                <video id="promo-video" class="w-full h-full object-contain" muted playsinline>
                     <source src="https://github.com/user-attachments/assets/e027f588-5403-43fc-9c70-8936c0f8fc0f" type="video/mp4">
                 </video>
             </div>
@@ -134,32 +139,32 @@
     <div class="progress-container"><div id="progress-fill"></div></div>
 
     <script>
-        const apiKey = ""; // API KEY GAAGII
+        const apiKey = ""; // API key halkaan geli
         let currentIdx = 0;
         
         const slides = [
-            { id: 'slide-0', time: 10, script: "Ku soo dhawaada Hormuud Telekom, wehelkaaga dhabta ah ee nolosha." },
+            { id: 'slide-0', time: 8, script: "Ku soo dhawaada Hormuud Telekom, wehelkaaga dhabta ah." },
             { id: 'slide-1', time: 10, script: "Xirmooyinka Anfac Plus, hel Internet iyo ku hadal. Garaac xiddig labo labo labo xiddig labo#." },
             { id: 'slide-2', time: 10, script: "Adeegga Kudhan, hel Internet iyo I-P-T-V wada socda. Garaac xiddig labo labo labo xiddig afar#." },
             { id: 'slide-3', time: 10, script: "Ku hadal aan xadidnayn oo aan kaa dhacayn. Garaac xiddig labo labo labo xiddig saddex#." },
-            { id: 'slide-4', time: 10, script: "Waafi App, ka hel dhammaan adeegyadaada maaliyadeed hal meel. Kala soo deg hadda." },
-            { id: 'slide-5', time: 5, script: "La soco ciyaaraha caalamka iyo adeegga Nasiye." },
-            { id: 'slide-6', time: 5, script: "Adeegga Maamuus, hel Internet iyo ku hadal aan xadidnayn." },
-            { id: 'slide-7', time: 5, script: "Hormuud waa hormuudka isgaarsiinta Soomaaliya." },
-            { id: 'slide-8', time: 5, script: "Adeeg kasta meel kasta." },
+            { id: 'slide-4', time: 8, script: "Waafi App, ka hel dhammaan adeegyadaada maaliyadeed hal meel. Kala soo deg hadda." },
+            { id: 'slide-5', time: 6, script: "Ciyaaraha caalamka iyo adeegga Nasiye." },
+            { id: 'slide-6', time: 6, script: "Adeegga Maamuus iyo fursado gaar ah." },
+            { id: 'slide-7', time: 5, script: "Hormuud waa wehelkaaga." },
+            { id: 'slide-8', time: 5, script: "Ugu adeeg macmiilkaaga si casri ah." },
             { id: 'slide-9', time: 5, script: "Xiriir joogto ah iyo tayo sare." },
-            { id: 'slide-10', time: 5, script: "Ku raaxayso internetka ugu dheereeya." },
-            { id: 'slide-11', time: 5, script: "Waan kuu adeegnaa mar walba." },
-            { id: 'slide-12', time: 5, script: "Hormuud waa wehelkaaga." },
-            { id: 'slide-13', time: 5, script: "Adeegyada ugu jaban." },
-            { id: 'slide-14', time: 5, script: "Tayo iyo kalsooni." },
-            { id: 'slide-15', time: 5, script: "Dalkaaga iyo dadkaaga u adeeg." },
-            { id: 'slide-16', time: 5, script: "Tiknoolajiyad casri ah." },
-            { id: 'slide-17', time: 5, script: "Maamuus oo kaliya kow iyo toban doolar." },
-            { id: 'slide-18', time: 5, script: "Xirmooyin kala duwan." },
-            { id: 'slide-19', time: 5, script: "Garaac xiddig labo labo labo#." },
-            { id: 'slide-20', time: 5, script: "Hormuud Telekom, wehelkaaga dhabta ah." },
-            { id: 'slide-video', time: 59, script: "Hadda daawo fiidiyowga bandhigga rasmiga ah." }
+            { id: 'slide-10', time: 5, script: "Hormuud, hormuudka isgaarsiinta." },
+            { id: 'slide-11', time: 5, script: "Adeeg hufan mar walba." },
+            { id: 'slide-12', time: 5, script: "Kalsoonidaada waa hadafkayaga." },
+            { id: 'slide-13', time: 5, script: "Dalka iyo dadka ayaan u adeegeynaa." },
+            { id: 'slide-14', time: 5, script: "Tiknoolajiyad kasta wean kula soconaa." },
+            { id: 'slide-15', time: 5, script: "Hormuud Telekom." },
+            { id: 'slide-16', time: 5, script: "Adeegga macaamiisha oo diyaar kuu ah." },
+            { id: 'slide-17', time: 5, script: "Xirmooyin jaban oo tayo leh." },
+            { id: 'slide-18', time: 5, script: "Hel internetka ugu dheereeya." },
+            { id: 'slide-19', time: 5, script: "Noloshaada ayaan kuu fududeyneynaa." },
+            { id: 'slide-20', time: 5, script: "Hormuud, wehelkaaga dhabta ah." },
+            { id: 'slide-video', time: 59, script: "Hadda daawo fiidiyowga bandhigga." }
         ];
 
         async function speakDeep(text) {
@@ -169,7 +174,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u culus: ${text}` }] }],
+                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u culus (Deep Male): ${text}` }] }],
                         generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Enceladus" } } } }
                     })
                 });
@@ -183,8 +188,7 @@
         function switchSlide() {
             document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
             const s = slides[currentIdx];
-            const el = document.getElementById(s.id);
-            if(el) el.classList.add('active');
+            document.getElementById(s.id).classList.add('active');
 
             const vid = document.getElementById('promo-video');
             if (s.id === 'slide-video') { vid.currentTime = 0; vid.play(); } else { vid.pause(); }
