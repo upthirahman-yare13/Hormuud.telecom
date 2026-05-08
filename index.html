@@ -3,175 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hormuud Multimedia Signage - Professional Version</title>
+    <title>Hormuud Multimedia Enterprise - Pro Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #010409; 
-            color: white; 
-            overflow: hidden; 
-            min-height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
-        }
-        .slide { display: none; width: 100%; flex-grow: 1; animation: slideIn 0.8s ease-out; }
+        :root { --hormuud-green: #1a9e4a; --dark-bg: #010409; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--dark-bg); color: white; overflow: hidden; min-height: 100vh; }
+        
+        .slide { display: none; width: 100%; flex-grow: 1; animation: slideZoom 0.8s ease-in-out; }
         .slide.active { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        @keyframes slideIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideZoom { from { opacity: 0; transform: scale(1.1); filter: blur(10px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
+
+        .admin-panel { position: fixed; inset: 0; background: rgba(1, 4, 9, 0.98); z-index: 5000; display: none; padding: 40px; overflow-y: auto; border: 4px solid var(--hormuud-green); }
+        .input-field { bg-white/5 border border-white/10 p-3 rounded-lg w-full mt-1 text-white focus:border-emerald-500 outline-none; }
+        
+        .grid-card { background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 30px; text-align: center; }
         
         .progress-container { height: 6px; background: rgba(255, 255, 255, 0.05); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100; }
-        #progress-fill { height: 100%; background: linear-gradient(90deg, #1a9e4a, #2ecc71); width: 0%; box-shadow: 0 0 15px #1a9e4a; }
-        
-        .grid-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 25px; text-align: center; }
-        
-        #start-overlay { position: fixed; inset: 0; background: #010409; z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        
-        /* Video Styling to fill screen elegantly */
-        .video-box { 
-            width: 100%; 
-            height: 100%; 
-            max-width: 1400px; 
-            max-height: 80vh;
-            border-radius: 40px; 
-            overflow: hidden; 
-            border: 8px solid #111; 
-            background: black; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-        }
+        #progress-fill { height: 100%; background: var(--hormuud-green); width: 0%; box-shadow: 0 0 20px var(--hormuud-green); }
 
-        .hormuud-text {
-            color: #1a9e4a;
-        }
-        
-        .hormuud-bg {
-            background-color: #1a9e4a;
-        }
+        .video-box { width: 95%; max-width: 1300px; aspect-ratio: 16/9; border-radius: 40px; overflow: hidden; border: 8px solid #111; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
     </style>
 </head>
-<body class="p-4 md:p-6">
+<body class="p-6">
 
-    <!-- Start Overlay -->
-    <div id="start-overlay">
-        <div class="mb-8 animate-pulse">
-            <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Hormuud" class="h-24">
+    <div id="admin-panel" class="admin-panel">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
+                <h2 class="text-3xl font-black text-emerald-500 uppercase">System Management Dashboard</h2>
+                <button onclick="toggleAdmin()" class="bg-red-600 px-6 py-2 rounded-full font-bold">XIR PANEL-KA</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h3 class="font-bold border-l-4 border-emerald-500 pl-3">QIIMAHA XIRMOOYINKA</h3>
+                    <div id="price-inputs" class="grid grid-cols-2 gap-4"></div>
+                </div>
+                
+                <div class="space-y-4">
+                    <h3 class="font-bold border-l-4 border-blue-500 pl-3">NASIYE TV & MUUQAALKA</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-xs opacity-50">CIYAARTA NASIYE (TEXT)</label>
+                            <input type="text" id="input-nasiye_match" class="bg-white/5 border border-white/10 p-3 rounded-lg w-full text-white">
+                        </div>
+                        <div>
+                            <label class="text-xs opacity-50">WAQTIGA CIYAARTA</label>
+                            <input type="text" id="input-nasiye_time" class="bg-white/5 border border-white/10 p-3 rounded-lg w-full text-white">
+                        </div>
+                        <div>
+                            <label class="text-xs opacity-50 uppercase text-yellow-500">Video Link (MP4)</label>
+                            <input type="text" id="input-video_url" class="bg-white/5 border border-yellow-500/30 p-3 rounded-lg w-full text-white" placeholder="Geli link-ga video-ga halkan">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <button onclick="saveAdminChanges()" class="bg-emerald-600 hover:bg-emerald-500 px-20 py-5 rounded-2xl font-black text-2xl transition-all shadow-xl">KEYDI DHAMMAAN ISBEDDELKA</button>
+            </div>
         </div>
-        <button id="start-btn" class="px-12 py-6 hormuud-bg hover:opacity-90 text-white rounded-full font-black text-2xl transition-all shadow-2xl uppercase tracking-wider">Bilow Bandhigga</button>
-        <p class="mt-6 text-slate-500 text-sm uppercase tracking-widest italic">Hormuud Telecom Multimedia</p>
     </div>
 
-    <!-- Header with Professional Info Bar -->
-    <header class="flex justify-between items-center mb-6">
-        <div class="flex items-center gap-6">
-            <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" alt="Hormuud Logo" class="h-16">
-        </div>
-        
-        <!-- Info Bar: Date, Day, Weather -->
-        <div class="flex items-center gap-4">
-            <div class="glass-panel px-6 py-2 flex flex-col items-end">
-                <span id="top-day" class="text-[10px] font-black uppercase text-emerald-500 tracking-widest">Maalinta</span>
-                <span id="top-date" class="text-sm font-bold">--/--/----</span>
-            </div>
-            <div class="glass-panel px-6 py-2 flex items-center gap-3">
-                <span id="top-weather-icon" class="text-xl">☀️</span>
-                <span class="text-sm font-bold">32°C <span class="text-[10px] block opacity-50 uppercase">Muqdisho</span></span>
-            </div>
-            <div class="glass-panel px-8 py-2 border-l-4 border-emerald-500">
-                <div id="clock" class="text-white font-black text-3xl italic tabular-nums">00:00</div>
+    <div id="start-overlay" class="fixed inset-0 bg-[#010409] z-[4000] flex flex-col items-center justify-center">
+        <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" class="h-28 mb-10">
+        <button id="start-btn" class="bg-[#1a9e4a] text-white px-20 py-8 rounded-full font-black text-4xl shadow-2xl hover:scale-105 transition-all uppercase">Start Multimedia</button>
+        <p class="mt-8 text-white/20 tracking-[0.5em] text-xs font-bold italic uppercase">Hormuud Digital Signage System v2.0</p>
+    </div>
+
+    <header class="flex justify-between items-center mb-10">
+        <img src="https://github.com/user-attachments/assets/14711a05-2d59-46ca-b54b-33d1978c2aab" class="h-20">
+        <div class="flex gap-4">
+            <div class="bg-white/5 px-8 py-4 rounded-3xl border border-white/10 text-right min-w-[200px]">
+                <span id="top-date" class="block text-xs text-emerald-500 font-black uppercase tracking-tighter mb-1">---</span>
+                <span id="clock" class="text-4xl font-black italic tracking-tighter">00:00</span>
             </div>
         </div>
     </header>
 
-    <main class="flex-1 flex items-center justify-center overflow-hidden">
-        <!-- Slide 0: Welcome -->
-        <div id="slide-0" class="slide active text-center space-y-8">
-            <div class="relative inline-block">
-                <div class="absolute -inset-10 bg-emerald-600/10 blur-[80px] rounded-full"></div>
-                <h2 class="text-5xl md:text-8xl font-black uppercase italic leading-none text-white drop-shadow-2xl relative">
-                    KUSOO DHAWAADA <br>
-                    <span class="hormuud-text">HORMUUD TELECOM</span>
-                </h2>
-            </div>
-            
-            <p class="text-2xl opacity-60 max-w-2xl mx-auto italic">Ku raaxayso adeegyo tayo leh oo daboolaya baahiyahaaga isgaarsiineed.</p>
-        </div>
-
-        <!-- Slide 1: Anfac Plus -->
-        <div id="slide-1" class="slide space-y-6 w-full max-w-6xl">
-            <div class="text-center"><h3 class="text-7xl font-black hormuud-text italic uppercase">ANFAC PLUS</h3><p class="text-2xl italic opacity-70">Internet Data, Ku hadal iyo SMS</p></div>
-            <div class="grid grid-cols-4 gap-4 px-4">
-                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$0.25</p><p class="text-sm">400MB, 10 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$0.5</p><p class="text-sm">850MB, 30 Min</p></div>
-                <div class="grid-card border-emerald-500 bg-emerald-500/10"><p class="hormuud-text font-black text-4xl">$1</p><p class="text-sm">2GB, 80 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$2</p><p class="text-sm">5GB, 160 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$5</p><p class="text-sm">12GB, 400 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$10</p><p class="text-sm">28GB, 800 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$20</p><p class="text-sm">60GB, 1600 Min</p></div>
-                <div class="grid-card"><p class="hormuud-text font-black text-4xl">$50</p><p class="text-sm">140GB, 4000 Min</p></div>
-            </div>
-            <p class="text-center font-black text-4xl italic text-emerald-400 animate-pulse uppercase">Garaac *222*2#</p>
-        </div>
-
-        <!-- Slide 2: Kudhan -->
-        <div id="slide-2" class="slide space-y-6 w-full max-w-5xl">
-            <div class="text-center"><h3 class="text-6xl md:text-7xl font-black text-emerald-500 italic uppercase">KUDHAN</h3><p class="text-2xl italic opacity-70">Internet, Ku-hadal, iyo IPTV (Nasiye)</p></div>
-            <div class="flex gap-4 w-full px-6">
-                <div class="flex-1 grid-card py-8"><p class="text-emerald-500 font-black text-5xl">$0.8</p><p class="text-xl uppercase mt-2">Maalinle</p></div>
-                <div class="flex-1 grid-card border-emerald-500 bg-emerald-500/10 py-12 scale-105"><p class="text-emerald-500 font-black text-7xl">$20</p><p class="text-2xl uppercase mt-2 font-black">Bile</p></div>
-                <div class="flex-1 grid-card py-8"><p class="text-emerald-500 font-black text-5xl">$5.5</p><p class="text-xl uppercase mt-2">Usbuucle</p></div>
-            </div>
-            <p class="text-center font-black text-4xl italic text-emerald-400 uppercase">Garaac *222*4#</p>
-        </div>
-
-        <!-- Slide 3: Ku-Hadal -->
-        <div id="slide-3" class="slide space-y-8 w-full max-w-5xl text-center">
-            <h3 class="text-7xl font-black text-yellow-500 italic uppercase">KU-HADAL AAN XADIDNAYN</h3>
-            <div class="flex gap-4 justify-center">
-                <div class="grid-card w-48"><p class="text-yellow-500 font-black text-4xl">$0.5</p><p>Maalinle</p></div>
-                <div class="grid-card w-48 border-yellow-500 bg-yellow-500/5"><p class="text-yellow-500 font-black text-5xl">$3</p><p>Usbuucle</p></div>
-                <div class="grid-card w-48"><p class="text-yellow-500 font-black text-4xl">$12</p><p>Bile</p></div>
-            </div>
-            <p class="text-5xl font-black text-yellow-400 italic">GARAAC *222*3#</p>
-        </div>
-
-        <!-- Slide 4: Waafi App -->
-        <div id="slide-4" class="slide text-center space-y-10 px-10">
-            <h3 class="text-9xl font-black text-white italic uppercase tracking-tighter">WAAFI <span class="hormuud-text">APP</span></h3>
-            <p class="text-4xl italic font-light leading-tight">Maamul EVC Plus, Taaj, iyo Akoonkaaga Bangiga hal meel ah.</p>
-            <div class="hormuud-bg px-12 py-6 rounded-full text-4xl font-black italic inline-block">DOWNLOAD WAAFI</div>
-        </div>
-
-        <!-- Slide 5: Nasiye -->
-        <div id="slide-5" class="slide text-center space-y-10">
-            <h3 class="text-8xl font-black text-white italic uppercase">NASIYE <span class="hormuud-text">TV</span></h3>
-            <div class="bg-white/5 p-12 rounded-[50px] border border-white/10 space-y-6">
-                <h4 class="text-4xl font-bold text-emerald-400 uppercase">Champions League Caawa</h4>
-                <div class="text-6xl font-black italic">Real Madrid <span class="hormuud-text">Vs</span> Bayern</div>
-                <p class="text-3xl text-slate-400">22:00 PM Habeenimo</p>
+    <main class="flex-1 flex items-center justify-center">
+        
+        <div id="slide-0" class="slide active">
+            <h3 class="text-8xl font-black text-emerald-500 italic mb-10 uppercase tracking-tighter">ANFAC PLUS</h3>
+            <div class="grid grid-cols-4 gap-6 w-full max-w-6xl">
+                <div class="grid-card"><p class="text-5xl font-black text-emerald-400 mb-2" id="val-anfac_1">$0.25</p><p class="text-sm opacity-50 uppercase font-bold">400MB + 10min</p></div>
+                <div class="grid-card"><p class="text-5xl font-black text-emerald-400 mb-2" id="val-anfac_2">$0.5</p><p class="text-sm opacity-50 uppercase font-bold">850MB + 30min</p></div>
+                <div class="grid-card bg-emerald-500/10 border-emerald-500 scale-110"><p class="text-6xl font-black text-emerald-400 mb-2" id="val-anfac_3">$1</p><p class="text-sm opacity-50 uppercase font-bold">2GB + 80min</p></div>
+                <div class="grid-card"><p class="text-5xl font-black text-emerald-400 mb-2" id="val-anfac_4">$2</p><p class="text-sm opacity-50 uppercase font-bold">5GB + 160min</p></div>
             </div>
         </div>
 
-        <!-- Slide 6: Maamuus -->
-        <div id="slide-6" class="slide text-center space-y-6">
-            <div class="hormuud-bg px-8 py-3 rounded-2xl text-2xl font-black italic inline-block">SPECIAL OFFER</div>
-            <h3 class="text-7xl md:text-8xl font-black text-white italic leading-none">MAAMUUS</h3>
-            <p class="text-4xl md:text-5xl font-bold italic text-emerald-400 uppercase tracking-tighter">UNLIMITED DATA + VOICE</p>
-            <p class="text-7xl font-black">$11 <span class="text-2xl opacity-50">/ 14 Days</span></p>
-            <p class="text-3xl italic font-black uppercase text-white">Garaac *744*Number*11#</p>
+        <div id="slide-1" class="slide">
+            <h3 class="text-8xl font-black text-white italic mb-12 uppercase tracking-tighter">KUDHAN <span class="text-emerald-500">BUNDLE</span></h3>
+            <div class="flex gap-8 w-full max-w-5xl">
+                <div class="flex-1 grid-card"><p class="text-6xl font-black text-emerald-400 mb-2" id="val-kudhan_1">$0.8</p><p class="text-xl uppercase font-bold">Maalinle</p></div>
+                <div class="flex-1 grid-card bg-emerald-500/10 border-emerald-500 scale-110"><p class="text-8xl font-black text-emerald-400 mb-2" id="val-kudhan_2">$20</p><p class="text-2xl uppercase font-black">Bile</p></div>
+                <div class="flex-1 grid-card"><p class="text-6xl font-black text-emerald-400 mb-2" id="val-kudhan_3">$5.5</p><p class="text-xl uppercase font-bold">Usbuucle</p></div>
+            </div>
         </div>
 
-        <!-- Slide 7: Video (Full Screen Box) -->
-        <div id="slide-7" class="slide">
+        <div id="slide-2" class="slide">
+            <div class="bg-white/5 p-16 rounded-[80px] border border-white/10 text-center max-w-5xl shadow-2xl relative">
+                <div class="absolute -top-6 left-1/2 -translate-x-1/2 bg-emerald-600 px-10 py-2 rounded-full font-black uppercase italic tracking-widest text-sm">Nasiye IPTV</div>
+                <h4 class="text-7xl font-black italic mb-8 uppercase leading-tight" id="val-nasiye_match">REAL MADRID vs BAYERN</h4>
+                <div class="text-5xl font-black text-emerald-500 italic" id="val-nasiye_time">CAAWA 10:00 PM</div>
+            </div>
+        </div>
+
+        <div id="slide-3" class="slide">
             <div class="video-box">
                 <video id="promo-video" class="w-full h-full object-cover" muted playsinline>
-                    <source src="https://github.com/user-attachments/assets/8b7e879a-e686-4896-806d-e5d2e6f57ff7" type="video/mp4">
+                    <source id="video-source" src="https://github.com/user-attachments/assets/8b7e879a-e686-4896-806d-e5d2e6f57ff7" type="video/mp4">
                 </video>
             </div>
         </div>
@@ -180,93 +122,101 @@
     <div class="progress-container"><div id="progress-fill"></div></div>
 
     <script>
-        const apiKey = ""; 
-        let current = 0;
+        // System Data
+        let hrmData = JSON.parse(localStorage.getItem('hrm_pro_data')) || {
+            anfac_1: "$0.25", anfac_2: "$0.5", anfac_3: "$1", anfac_4: "$2",
+            kudhan_1: "$0.8", kudhan_2: "$20", kudhan_3: "$5.5",
+            nasiye_match: "CHAMPIONS LEAGUE", nasiye_time: "CAAWA 10:00 PM",
+            video_url: "https://github.com/user-attachments/assets/8b7e879a-e686-4896-806d-e5d2e6f57ff7"
+        };
+
         const slides = [
-            { id: 'slide-0', time: 10, script: "Kusoo dhawaada Hormuud Telecom, wehelkaaga dhabta ah ee nolosha." },
-            { id: 'slide-1', time: 12, script: "Xirmooyinka Anfac Plus, iibso xirmo isugu jirta Internet, ku hadal iyo farriin qoraal. Garaac xiddig labo labo labo xiddig labo#." },
-            { id: 'slide-2', time: 12, script: "Adeegga cusub ee Kudhan. Hel Internet, ku-hadal, iyo IPTV hal meel ah. Garaac xiddig labo labo labo xiddig afar#." },
-            { id: 'slide-3', time: 12, script: "Ku-hadal aan xadidnayn oo aan kaa dhacayn. Garaac xiddig labo labo labo xiddig saddex#." },
-            { id: 'slide-4', time: 12, script: "Ma ogtahay in Waafi App aad ka heli karto dhammaan adeegyadaada maaliyadeed? Kala soo deg Waafi App hadda." },
-            { id: 'slide-5', time: 12, script: "Ka daawo Nasiye kulamada xiisaha badan ee Champions League caawa tobanka habeenimo." },
-            { id: 'slide-6', time: 12, script: "Dalab gaar ah! Hel Internet iyo ku hadal aan xadidnayn muddo labo toddobaad ah oo kaliya kow iyo toban doolar." },
-            { id: 'slide-7', time: 59, script: "Hadda daawo fiidiyowga bandhigga rasmiga ah ee Hormuud Telekom." }
+            { id: 'slide-0', time: 10, script: "Xirmooyinka Anfac Plus waa kuwo isku dhaf ah." },
+            { id: 'slide-1', time: 10, script: "Adeegga Kudhan, ka hel internet-ka guriga iyo IPTV wada socda." },
+            { id: 'slide-2', time: 10, script: "Daawo kulamada Champions League toos uga daawo Nasiye IPTV." },
+            { id: 'slide-3', time: 40, script: "Hormuud Telecom, Wehelkaaga dhabta ah." }
         ];
 
-        function updateDateTime() {
-            const now = new Date();
-            document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
-            
-            const days = ['Axad', 'Isniin', 'Talaado', 'Arbaco', 'Khamiis', 'Jimco', 'Sabti'];
-            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-            
-            const dayName = days[now.getDay()];
-            const formattedDate = `${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-            
-            // Update Top Bar
-            document.getElementById('top-day').textContent = dayName;
-            document.getElementById('top-date').textContent = formattedDate;
+        let current = 0;
+        let slideTimeout;
+
+        function updateDisplay() {
+            for (let key in hrmData) {
+                const el = document.getElementById('val-' + key);
+                if(el) el.textContent = hrmData[key];
+                if(key === 'video_url') {
+                    const video = document.getElementById('promo-video');
+                    const source = document.getElementById('video-source');
+                    if(source.src !== hrmData[key]) {
+                        source.src = hrmData[key];
+                        video.load();
+                    }
+                }
+            }
         }
 
-        function pcmToWav(pcmData, sampleRate) {
-            const buffer = new ArrayBuffer(44 + pcmData.length * 2);
-            const view = new DataView(buffer);
-            const writeString = (offset, string) => { for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i)); };
-            writeString(0, 'RIFF'); view.setUint32(4, 32 + pcmData.length * 2, true); writeString(8, 'WAVE'); writeString(12, 'fmt ');
-            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true); view.setUint16(34, 16, true); writeString(36, 'data');
-            view.setUint32(40, pcmData.length * 2, true); for (let i = 0; i < pcmData.length; i++) view.setInt16(44 + i * 2, pcmData[i], true);
-            return new Blob([buffer], { type: 'audio/wav' });
+        function renderAdmin() {
+            const container = document.getElementById('price-inputs');
+            container.innerHTML = '';
+            const keys = ['anfac_1', 'anfac_2', 'anfac_3', 'anfac_4', 'kudhan_1', 'kudhan_2', 'kudhan_3'];
+            keys.forEach(key => {
+                container.innerHTML += `
+                    <div>
+                        <label class="text-[10px] opacity-40 uppercase font-bold">${key.replace('_',' ')}</label>
+                        <input type="text" id="input-${key}" value="${hrmData[key]}" class="bg-white/5 border border-white/10 p-2 rounded w-full text-white">
+                    </div>
+                `;
+            });
+            document.getElementById('input-nasiye_match').value = hrmData.nasiye_match;
+            document.getElementById('input-nasiye_time').value = hrmData.nasiye_time;
+            document.getElementById('input-video_url').value = hrmData.video_url;
         }
 
-        async function speak(text) {
-            if(!apiKey) return;
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Dheh adigoo ah nin Soomaali ah oo cod aad u culus: ${text}` }] }],
-                        generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Enceladus" } } } }
-                    })
-                });
-                const data = await response.json();
-                const audioBase64 = data.candidates[0].content.parts[0].inlineData.data;
-                const pcm = new Int16Array(Uint8Array.from(atob(audioBase64), c => c.charCodeAt(0)).buffer);
-                const wav = pcmToWav(pcm, 24000);
-                const audio = new Audio(URL.createObjectURL(wav));
-                audio.play();
-            } catch (e) { console.error(e); }
+        function saveAdminChanges() {
+            const keys = ['anfac_1', 'anfac_2', 'anfac_3', 'anfac_4', 'kudhan_1', 'kudhan_2', 'kudhan_3', 'nasiye_match', 'nasiye_time', 'video_url'];
+            keys.forEach(key => {
+                hrmData[key] = document.getElementById('input-' + key).value;
+            });
+            localStorage.setItem('hrm_pro_data', JSON.stringify(hrmData));
+            updateDisplay();
+            toggleAdmin();
+            location.reload(); // Refresh to ensure video and logic resets
         }
 
-        function run() {
+        function toggleAdmin() {
+            const panel = document.getElementById('admin-panel');
+            const isHidden = panel.style.display === 'none' || panel.style.display === '';
+            panel.style.display = isHidden ? 'block' : 'none';
+            if(isHidden) renderAdmin();
+        }
+
+        window.addEventListener('keydown', (e) => { if(e.key === "Escape") toggleAdmin(); });
+
+        function runSystem() {
+            clearTimeout(slideTimeout);
             document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
             const s = slides[current];
             document.getElementById(s.id).classList.add('active');
 
             const vid = document.getElementById('promo-video');
-            if (current === 7) { 
-                vid.currentTime = 0; 
-                vid.play().catch(e => console.log("Video play failed:", e)); 
-            } else { 
-                vid.pause(); 
-            }
-
-            speak(s.script);
-            updateDateTime();
+            if(s.id === 'slide-3') { vid.currentTime = 0; vid.play(); } else { vid.pause(); }
 
             const bar = document.getElementById('progress-fill');
             bar.style.transition = 'none'; bar.style.width = '0%';
             setTimeout(() => { bar.style.transition = `width ${s.time}s linear`; bar.style.width = '100%'; }, 50);
 
-            setTimeout(() => { current = (current + 1) % slides.length; run(); }, s.time * 1000);
+            slideTimeout = setTimeout(() => { current = (current + 1) % slides.length; runSystem(); }, s.time * 1000);
         }
 
         document.getElementById('start-btn').onclick = () => {
-            document.getElementById('start-overlay').style.display = 'none';
-            updateDateTime();
-            setInterval(updateDateTime, 1000);
-            run();
+            document.getElementById('start-overlay').remove();
+            updateDisplay();
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('clock').textContent = now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'});
+                document.getElementById('top-date').textContent = now.toLocaleDateString('so-SO', {day:'numeric', month:'short', year:'numeric'});
+            }, 1000);
+            runSystem();
         };
     </script>
 </body>
