@@ -1,1 +1,2 @@
-<img width="720" height="1497" alt="Screenshot_20260509_035023_TikTok" src="https://github.com/user-attachments/assets/58ee535b-1c6a-4e89-9cf0-3a576bcaff7c" />
+<img width="720" height="711" alt="Screenshot_20260509_035440_TikTok" src="https://github.com/user-attachments/assets/66e47f8a-af88-4129-8cfb-f3f6d991036e" />
+
