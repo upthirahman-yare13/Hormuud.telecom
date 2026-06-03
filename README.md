@@ -1,5 +1,1 @@
-<img width="1242" height="2208" alt="IMG-20260118-WA0006" src="https://github.com/user-attachments/assets/4b117b2c-284e-471c-b315-932e2d118dd6" />
-
-
-
-
+![1000164739](https://github.com/user-attachments/assets/2bd838ff-6546-4b82-9a17-f0d75886c337)
